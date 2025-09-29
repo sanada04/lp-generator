@@ -1,0 +1,49 @@
+body {
+  margin: 0;
+  font-family: "Noto Sans JP", sans-serif;
+}
+
+.editor-container {
+  display: flex;
+  height: 100vh;
+}
+
+.preview {
+  flex: 1;
+  background: #fff;
+}
+
+.preview iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.sidebar {
+  width: 300px;
+  padding: 20px;
+  background: #f5f7fa;
+  border-left: 1px solid #ddd;
+  overflow-y: auto;
+}
+
+.sidebar h2 {
+  margin-top: 0;
+  font-size: 18px;
+}
+
+.sidebar label {
+  display: block;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.sidebar input,
+.sidebar textarea {
+  width: 100%;
+  margin-top: 5px;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}

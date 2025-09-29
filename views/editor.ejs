@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>LPエディター</title>
+<link rel="stylesheet" href="/css/editor.css">
+</head>
+<body>
+<div class="editor-container">
+<!-- プレビュー左 -->
+<div class="preview">
+<iframe id="previewIframe"></iframe>
+</div>
+
+<!-- 編集フォーム右 -->
+<div class="sidebar">
+<h2>編集フォーム</h2>
+<form id="editorForm" enctype="multipart/form-data">
+<label>タイトル
+<input type="text" name="title" placeholder="サンプルタイトル">
+</label>
+<label>説明文
+<textarea name="description" rows="3" placeholder="サンプル説明文"></textarea>
+</label>
+<label>CTAボタン
+<input type="text" name="cta" placeholder="ボタンの文言">
+</label>
+<label>背景色
+<input type="color" name="bgColor" value="#ffffff">
+</label>
+<label>文字色
+<input type="color" name="textColor" value="#333333">
+</label>
+<label>アクセントカラー
+<input type="color" name="accentColor" value="#ff0000">
+</label>
+<label>ロゴアップロード
+<input type="file" name="logo" accept="image/*">
+</label>
+<label>メインビジュアル画像
+<input type="file" name="mainvisual" accept="image/*">
+</label>
+</form>
+</div>
+</div>
+
+<script src="/js/editor.js"></script>
+</body>
+</html>

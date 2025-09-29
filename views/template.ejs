@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title><%= title %></title>
+<link rel="stylesheet" href="/css/base.css">
+</head>
+<body style="background:<%= bgColor %>; color:<%= textColor %>;">
+<header class="header">
+<div class="header-container">
+<div class="header-content">
+<ul class="header-content-list">
+<% if (anchors && anchors.length > 0) { %>
+<% anchors.forEach(function(anchor){ %>
+<li class="header-content-list-item"><a class="header-content-list-item-link" href="#<%= anchor.id %>"><%= anchor.label %></a></li>
+<% }); %>
+<% } %>
+<% if (buttons && buttons.length > 0) { %>
+<% buttons.forEach(function(btn){ %>
+<li class="header-content-list-button"><a class="header-content-list-item-button-link" href="<%= btn.url %>"><%= btn.label %></a></li>
+<% }); %>
+<% } %>
+</ul>
+</div>
+</div>
+</header>
+
+<div class="mainvisual">
+<div class="mainvisual-image">
+<% if (mainvisualFile) { %>
+<img src="<%= mainvisualFile %>" alt="mainvisual">
+<% } %>
+</div>
+<div class="mainvisual-content">
+<h1><%= title %></h1>
+<p><%= description %></p>
+<a href="#" class="cta" style="background:<%= accentColor %>"><%= cta %></a>
+</div>
+</div>
+
+<div class="container">
+<% if (anchors && anchors.length > 0) { %>
+<% anchors.forEach(function(anchor){ %>
+<h2 id="<%= anchor.id %>"><%= anchor.label %></h2>
+<p>ここに「<%= anchor.label %>」に関するコンテンツを入れます。</p>
+<% }); %>
+<% } %>
+</div>
+</body>
+</html>
