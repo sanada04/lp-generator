@@ -24,29 +24,74 @@ app.get("/", (req, res) => {
 
 // プレビューAPI
 app.post("/preview", upload.fields([{ name: "logo" }, { name: "mainvisual" }]), (req, res) => {
-  const data = req.body;
-  const templateStr = fs.readFileSync(path.join(__dirname, "views", "template.ejs"), "utf8");
+  try {
+    const data = req.body;
+    const templateStr = fs.readFileSync(path.join(__dirname, "views", "template.ejs"), "utf8");
 
-  const html = ejs.render(templateStr, {
-    title: data.title || "サンプルタイトル",
-    description: data.description || "サンプル説明文",
-    cta: data.cta || "詳細はこちら",
-    bgColor: data.bgColor || "#ffffff",
-    textColor: data.textColor || "#333333",
-    accentColor: data.accentColor || "#ff0000",
-    logoFile: req.files?.logo ? req.files.logo[0].originalname : null,
-    mainvisualFile: req.files?.mainvisual ? req.files.mainvisual[0].originalname : null,
-    anchors: [            // ← ここを追加
-      { id: "section1", label: "特徴" },
-      { id: "section2", label: "料金" }
-    ],
-    buttons: [
-      { url: "#apply", label: "今すぐ申し込む" },
-      { url: "#contact", label: "お問い合わせ" }
-    ]
-  });
+    // パーツデータをパース
+    let parts = [];
+    if (data.parts) {
+      try {
+        parts = JSON.parse(data.parts);
+        console.log('プレビューAPI: パーツデータパース成功:', parts.length, '個のパーツ');
+      } catch (e) {
+        console.error('プレビューAPI: パーツデータのパースエラー:', e);
+        console.error('パーツデータ長:', data.parts.length);
+        console.error('パーツデータ先頭:', data.parts.substring(0, 200) + '...');
+        parts = [];
+      }
+    }
 
-  res.send(html);
+    const html = ejs.render(templateStr, {
+      bgColor: data.bgColor || "#ffffff",
+      textColor: data.textColor || "#333333",
+      accentColor: data.accentColor || "#ff0000",
+      logoFile: req.files?.logo ? req.files.logo[0].originalname : null,
+      mainvisualFile: req.files?.mainvisual ? req.files.mainvisual[0].originalname : null,
+      parts: parts
+    });
+
+    res.send(html);
+  } catch (error) {
+    console.error('プレビュー生成エラー:', error);
+    res.status(500).send('プレビュー生成中にエラーが発生しました: ' + error.message);
+  }
+});
+
+// 書き出し用プレビューAPI（編集用コントロールなし）
+app.post("/export-preview", upload.fields([{ name: "logo" }, { name: "mainvisual" }]), (req, res) => {
+  try {
+    const data = req.body;
+    const templateStr = fs.readFileSync(path.join(__dirname, "views", "export-template.ejs"), "utf8");
+
+    // パーツデータをパース
+    let parts = [];
+    if (data.parts) {
+      try {
+        parts = JSON.parse(data.parts);
+        console.log('書き出しAPI: パーツデータパース成功:', parts.length, '個のパーツ');
+      } catch (e) {
+        console.error('書き出しAPI: パーツデータのパースエラー:', e);
+        console.error('パーツデータ長:', data.parts.length);
+        console.error('パーツデータ先頭:', data.parts.substring(0, 200) + '...');
+        parts = [];
+      }
+    }
+
+    const html = ejs.render(templateStr, {
+      bgColor: data.bgColor || "#ffffff",
+      textColor: data.textColor || "#333333",
+      accentColor: data.accentColor || "#ff0000",
+      logoFile: req.files?.logo ? req.files.logo[0].originalname : null,
+      mainvisualFile: req.files?.mainvisual ? req.files.mainvisual[0].originalname : null,
+      parts: parts
+    });
+
+    res.send(html);
+  } catch (error) {
+    console.error('書き出しプレビュー生成エラー:', error);
+    res.status(500).send('書き出しプレビュー生成中にエラーが発生しました: ' + error.message);
+  }
 });
 
 app.listen(3000, () => {

@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>ランディングページ</title>
+<link rel="stylesheet" href="/css/base.css">
+<style>
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+.preview-container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 0;
+}
+
+.part {
+  margin-bottom: 0;
+  padding: 0;
+  border: none;
+  position: relative;
+  background: transparent;
+}
+
+.hero-section {
+  text-align: center;
+  padding: 60px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.hero-section h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.hero-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  opacity: 0.9;
+}
+
+.hero-section p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-section .cta-button {
+  display: inline-block;
+  background: <%= accentColor %>;
+  color: white;
+  padding: 15px 30px;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.features-section {
+  padding: 60px 20px;
+  background: #f8f9fa;
+}
+
+.features-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 50px;
+  color: #333;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.feature-item {
+  text-align: center;
+  padding: 30px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.feature-item .icon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.feature-item h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.feature-item p {
+  color: #666;
+  line-height: 1.6;
+}
+
+.pricing-section {
+  padding: 60px 20px;
+  background: white;
+}
+
+.pricing-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 50px;
+  color: #333;
+}
+
+.pricing-grid {
+  display: grid;
+  gap: 16px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* 動的カラム数 */
+.pricing-grid-1 {
+  grid-template-columns: 300px;
+  max-width: 300px;
+}
+
+.pricing-grid-2 {
+  grid-template-columns: repeat(2, 300px);
+  max-width: 620px;
+}
+
+.pricing-grid-3 {
+  grid-template-columns: repeat(3, 300px);
+  max-width: 940px;
+}
+
+.pricing-grid-4 {
+  grid-template-columns: repeat(4, 300px);
+  max-width: 1260px;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 1260px) {
+  .pricing-grid-4 {
+    grid-template-columns: repeat(2, 300px);
+    max-width: 620px;
+  }
+}
+
+@media (max-width: 940px) {
+  .pricing-grid-3 {
+    grid-template-columns: repeat(2, 300px);
+    max-width: 620px;
+  }
+}
+
+@media (max-width: 640px) {
+  .pricing-grid-2,
+  .pricing-grid-3,
+  .pricing-grid-4 {
+    grid-template-columns: 300px;
+    max-width: 300px;
+  }
+}
+
+.pricing-card {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 40px 30px;
+  text-align: center;
+  border: 2px solid #e9ecef;
+  transition: transform 0.3s;
+}
+
+.pricing-card:hover {
+  transform: translateY(-5px);
+  border-color: <%= accentColor %>;
+}
+
+.pricing-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.pricing-card .price {
+  font-size: 3rem;
+  font-weight: bold;
+  color: <%= accentColor %>;
+  margin-bottom: 30px;
+}
+
+.pricing-card ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 30px;
+}
+
+.pricing-card li {
+  padding: 10px 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.contact-section {
+  padding: 60px 20px;
+  background: #f8f9fa;
+  text-align: center;
+}
+
+.contact-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.contact-section p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  color: #666;
+}
+
+.contact-info {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.testimonial-section {
+  padding: 60px 20px;
+  background: white;
+}
+
+.testimonial-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 50px;
+  color: #333;
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.testimonial-card {
+  background: #f8f9fa;
+  padding: 30px;
+  border-radius: 12px;
+  border-left: 4px solid <%= accentColor %>;
+}
+
+.testimonial-card p {
+  font-style: italic;
+  margin-bottom: 20px;
+  color: #333;
+  line-height: 1.6;
+}
+
+.testimonial-card .author {
+  font-weight: bold;
+  color: #666;
+}
+
+/* リンクスタイル */
+.feature-link {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 16px;
+  background: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.feature-link:hover {
+  background: #0056b3;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
+}
+
+.contact-item a {
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.contact-item a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+</style>
+</head>
+<body style="background:<%= bgColor %>; color:<%= textColor %>;">
+
+<div class="preview-container">
+<% if (parts && parts.length > 0) { %>
+<% parts.forEach(function(part, index){ %>
+<div class="part" data-part-id="<%= part.id || index %>">
+
+<% if (part.type === 'hero') { %>
+<div class="hero-section" style="background: linear-gradient(135deg, <%= part.backgroundColor || '#667eea' %> 0%, <%= part.backgroundColor || '#764ba2' %> 100%);">
+  <% if (part.image) { %>
+  <img src="<%= part.image %>" alt="ヒーロー画像" style="max-width: 100%; height: auto; margin-bottom: 30px;">
+  <% } %>
+  <h1><%= part.title %></h1>
+  <h2><%= part.subtitle %></h2>
+  <p><%= part.description %></p>
+  <a href="<%= part.buttonLink || '#' %>" class="cta-button"><%= part.buttonText %></a>
+</div>
+<% } %>
+
+<% if (part.type === 'features') { %>
+<div class="features-section">
+  <h2><%= part.title %></h2>
+  <div class="features-grid">
+    <% if (part.items) { %>
+    <% part.items.forEach(function(item){ %>
+    <div class="feature-item">
+      <div class="icon"><%= item.icon %></div>
+      <h3><%= item.title %></h3>
+      <p><%= item.description %></p>
+      <% if (item.link && item.link !== '#') { %>
+      <a href="<%= item.link %>" class="feature-link">詳細を見る</a>
+      <% } %>
+    </div>
+    <% }); %>
+    <% } %>
+  </div>
+</div>
+<% } %>
+
+<% if (part.type === 'pricing') { %>
+<div class="pricing-section">
+  <h2><%= part.title %></h2>
+  <div class="pricing-grid pricing-grid-<%= part.plans ? part.plans.length : 1 %>">
+    <% if (part.plans) { %>
+    <% part.plans.forEach(function(plan){ %>
+    <div class="pricing-card">
+      <h3><%= plan.name %></h3>
+      <div class="price"><%= plan.price %></div>
+      <ul>
+        <% if (plan.features) { %>
+        <% plan.features.forEach(function(feature){ %>
+        <li><%= feature %></li>
+        <% }); %>
+        <% } %>
+      </ul>
+      <a href="<%= plan.link || '#' %>" class="cta-button">選択する</a>
+    </div>
+    <% }); %>
+    <% } %>
+  </div>
+</div>
+<% } %>
+
+<% if (part.type === 'contact') { %>
+<div class="contact-section">
+  <h2><%= part.title %></h2>
+  <p><%= part.description %></p>
+  <div class="contact-info">
+    <div class="contact-item">
+      <span>📧</span>
+      <a href="<%= part.emailLink || 'mailto:' + part.email %>"><%= part.email %></a>
+    </div>
+    <div class="contact-item">
+      <span>📞</span>
+      <a href="<%= part.phoneLink || 'tel:' + part.phone %>"><%= part.phone %></a>
+    </div>
+  </div>
+</div>
+<% } %>
+
+<% if (part.type === 'testimonial') { %>
+<div class="testimonial-section">
+  <h2><%= part.title %></h2>
+  <div class="testimonials-grid">
+    <% if (part.testimonials) { %>
+    <% part.testimonials.forEach(function(testimonial){ %>
+    <div class="testimonial-card">
+      <p>"<%= testimonial.comment %>"</p>
+      <div class="author">- <%= testimonial.name %></div>
+    </div>
+    <% }); %>
+    <% } %>
+  </div>
+</div>
+<% } %>
+
+</div>
+<% }); %>
+<% } else { %>
+<div class="part">
+  <div style="text-align: center; color: #999; padding: 60px 20px;">
+    <h2>ランディングページ</h2>
+    <p>パーツを追加してランディングページを作成してください</p>
+  </div>
+</div>
+<% } %>
+</div>
+
+</body>
+</html>
