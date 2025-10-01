@@ -290,11 +290,7 @@ html, body {
 }
 
 .parts-palette {
-  margin-top: 20px;
-  padding: 15px;
-  background: #e8f4fd;
-  border-radius: 8px;
-  border: 1px solid #ddd;
+  margin-top: 32px;
 }
 
 .parts-palette h3 {
@@ -557,12 +553,7 @@ html, body {
 
 /* カラー設定セクション */
 .color-settings {
-  background: white;
-  border: 1px solid #e9ecef;
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin-bottom: 32px;
 }
 
 .color-settings h3 {
