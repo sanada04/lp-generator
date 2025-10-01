@@ -6,6 +6,20 @@
 <link rel="stylesheet" href="/css/editor.css">
 </head>
 <body>
+<!-- ヘッダー -->
+<header class="page-header">
+  <div class="header-content">
+    <div class="header-left">
+      <h1 class="header-title"><img src="/images/logo.png" alt="LPジェネレーター" class="header-logo" onerror="this.style.display='none'"></h1>
+    </div>
+      <div class="header-right">
+        <button class="header-notice-btn" onclick="openNoticeModal()">
+          <span class="notice-text">使い方ガイド</span>
+        </button>
+      </div>
+  </div>
+</header>
+
 <div class="editor-container">
 <!-- プレビュー左 -->
 <div class="preview">
@@ -138,7 +152,54 @@
 <p>編集用のボタンやコントロールは表示されません。</p>
 </div>
 </div>
+  </div>
 </div>
+
+<!-- モーダル -->
+<div id="noticeModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>使い方ガイド</h2>
+      <button class="modal-close" onclick="closeNoticeModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="guide-section">
+        <h3>基本的な使い方</h3>
+        <p>こんにちは！簡単にランディングページを作成できます。以下の手順で進めてください：</p>
+        <ol>
+          <li><strong>パーツを選択</strong>：左側のパレットからパーツをクリックして追加</li>
+          <li><strong>パーツを編集</strong>：プレビューでパーツをクリックして編集</li>
+          <li><strong>順番を変更</strong>：上下ボタンでパーツの順番を調整</li>
+          <li><strong>プレビュー確認</strong>：「プレビュー」タブで最終確認</li>
+        </ol>
+      </div>
+      
+      <div class="guide-section">
+        <h3>カスタマイズ</h3>
+        <ul>
+          <li><strong>色の変更</strong>：「一般設定」で背景色、文字色、アクセントカラーを設定</li>
+          <li><strong>画像の追加</strong>：各パーツで画像をアップロード可能</li>
+          <li><strong>リンクの設定</strong>：ボタンやメニューにリンクを設定可能</li>
+        </ul>
+      </div>
+      
+      <div class="guide-section">
+        <h3>パーツの種類</h3>
+        <ul>
+          <li><strong>ヒーロー</strong>：メインビジュアルとキャッチコピー</li>
+          <li><strong>特徴</strong>：サービスの特徴を紹介</li>
+          <li><strong>料金</strong>：プランと価格を表示（最大4プラン）</li>
+          <li><strong>お問い合わせ</strong>：連絡先情報</li>
+          <li><strong>その他</strong>：ギャラリー、ブログ、FAQなど</li>
+        </ul>
+      </div>
+      
+      <div class="guide-section">
+        <h3>注意事項</h3>
+        <p>このツールはプレビュー用です。実際の公開前に必ず内容を確認してください。</p>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script src="/js/editor.js"></script>

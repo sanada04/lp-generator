@@ -18,7 +18,7 @@ body, html {
   overflow-y: auto;
   overflow-x: hidden;
   padding: 20px;
-  padding-bottom: 120px;
+  padding-bottom: 20px;
   box-sizing: border-box;
   position: relative;
 }
@@ -48,273 +48,144 @@ body, html {
 
 /* フッターのコントロール（独立した要素） */
 .footer-controls {
-  opacity: 1 !important;
-  transform: translateY(0) !important;
-  position: fixed !important;
-  bottom: 20px !important;
-  right: 20px !important;
-  top: auto !important;
-  left: auto !important;
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 10px;
   z-index: 10000 !important;
-  background: rgba(255, 255, 255, 0.95) !important;
-  border-radius: 8px !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
-  flex-direction: row !important;
-  gap: 8px !important;
-  padding: 8px !important;
-  width: auto !important;
-  height: auto !important;
-  margin: 0 !important;
-  transition: none !important;
-  border: none !important;
-}
-
-.footer-controls:hover {
-  transform: translateY(0) !important;
-  opacity: 1 !important;
+  pointer-events: auto;
 }
 
 .footer-controls button {
-  padding: 8px 12px !important;
-  font-size: 12px !important;
-  min-width: 60px !important;
-  background: #007bff !important;
-  color: white !important;
-  border: none !important;
-  border-radius: 4px !important;
-  cursor: pointer !important;
-  transition: background-color 0.2s ease !important;
-  position: relative !important;
+  padding: 8px 12px;
+  font-size: 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
   z-index: 10001 !important;
-  pointer-events: auto !important;
-  transform: none !important;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .footer-controls button:hover {
-  background: #0056b3 !important;
-  transform: none !important;
-}
-
-/* フッター非表示インジケーター */
-.footer-hidden-indicator {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  background: #f8f9fa;
-  border-top: 2px dashed #dee2e6;
-  padding: 20px;
-  text-align: center;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.footer-hidden-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-}
-
-.footer-hidden-content p {
-  margin: 0;
-  color: #6c757d;
-  font-size: 14px;
-}
-
-.show-footer-btn {
-  background: #28a745;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  transition: background-color 0.2s ease;
-}
-
-.show-footer-btn:hover {
-  background: #218838;
-}
-
-.toggle-footer-btn {
-  background: #6c757d;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  transition: background-color 0.2s ease;
-  margin-left: 8px;
-}
-
-.toggle-footer-btn:hover {
-  background: #5a6268;
-}
-
-.footer-controls button:active {
-  background: #004085 !important;
-  transform: scale(0.95) !important;
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .part-controls {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 15px;
+  right: 15px;
   display: flex;
-  flex-direction: column;
   gap: 8px;
+  opacity: 0;
+  transform: translateY(-15px);
+  transition: all 0.3s ease;
+  z-index: 1000;
   background: rgba(255, 255, 255, 0.95);
   padding: 8px;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   backdrop-filter: blur(10px);
-  opacity: 0.7;
-  transform: translateY(-5px);
-  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.part-controls button {
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #007bff;
+  color: white;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+  min-width: 60px;
+}
+
+.part-controls button:hover {
+  background: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
 }
 
 .part-move-controls {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  border-top: 1px solid #e9ecef;
-  padding-top: 6px;
+  margin-left: 4px;
+  padding-left: 8px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.part-edit-btn {
-  background: linear-gradient(135deg, #007bff, #0056b3);
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 12px;
-  font-weight: 500;
-  transition: all 0.2s;
-  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
+.part-move-up-btn, .part-move-down-btn {
+  padding: 6px 10px !important;
+  font-size: 11px !important;
+  background: #6c757d !important;
+  min-width: 40px !important;
+  box-shadow: 0 2px 6px rgba(108, 117, 125, 0.3) !important;
+}
+
+.part-move-up-btn:hover, .part-move-down-btn:hover {
+  background: #545b62 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 3px 8px rgba(108, 117, 125, 0.4) !important;
 }
 
 .part-delete-btn {
-  background: linear-gradient(135deg, #dc3545, #c82333);
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 12px;
-  font-weight: 500;
-  transition: all 0.2s;
-  box-shadow: 0 2px 4px rgba(220, 53, 69, 0.3);
-}
-
-.part-edit-btn:hover {
-  background: linear-gradient(135deg, #0056b3, #004085);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.4);
+  background: #dc3545 !important;
+  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3) !important;
 }
 
 .part-delete-btn:hover {
-  background: linear-gradient(135deg, #c82333, #a71e2a);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.4);
+  background: #c82333 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4) !important;
 }
 
-.part-move-up-btn,
-.part-move-down-btn {
-  background: linear-gradient(135deg, #28a745, #20c997);
-  color: white;
-  border: none;
-  padding: 6px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: bold;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-  box-shadow: 0 2px 4px rgba(40, 167, 69, 0.3);
-}
-
-.part-move-up-btn:hover {
-  background: linear-gradient(135deg, #20c997, #17a2b8);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4);
-}
-
-.part-move-down-btn:hover {
-  background: linear-gradient(135deg, #20c997, #17a2b8);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4);
-}
-
-.part-move-up-btn:disabled,
-.part-move-down-btn:disabled {
-  background: #6c757d;
-  cursor: not-allowed;
-  opacity: 0.5;
-  transform: none;
-  box-shadow: none;
-}
-
-/* リンクスタイル */
-.feature-link {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 8px 16px;
-  background: #007bff;
-  color: white;
-  text-decoration: none;
-  border-radius: 4px;
-  font-size: 14px;
-  transition: all 0.2s;
-}
-
-.feature-link:hover {
-  background: #0056b3;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
-}
-
-.contact-item a {
-  color: #007bff;
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.contact-item a:hover {
-  color: #0056b3;
-  text-decoration: underline;
+.empty-part {
+  text-align: center;
+  color: #999;
+  padding: 60px 20px;
+  border: 2px dashed #ddd;
+  border-radius: 12px;
+  background: #f8f9fa;
 }
 
 .hero-section {
   text-align: center;
-  padding: 60px 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 80px 20px;
   color: white;
+  border-radius: 12px;
+  margin-bottom: 0;
 }
 
 .hero-section h1 {
-  font-size: 3rem;
+  font-size: 3.5rem;
   margin-bottom: 20px;
+  font-weight: bold;
 }
 
 .hero-section h2 {
   font-size: 1.5rem;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   opacity: 0.9;
 }
 
 .hero-section p {
   font-size: 1.2rem;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
+  line-height: 1.6;
 }
 
 .hero-section .cta-button {
@@ -326,11 +197,66 @@ body, html {
   border-radius: 8px;
   font-size: 1.1rem;
   font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.hero-section .cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.about-section {
+  padding: 60px 20px;
+  background: white;
+  border-radius: 12px;
+}
+
+.about-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.about-section p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #666;
+  max-width: 800px;
+  margin: 0 auto 30px;
+  text-align: center;
+}
+
+.about-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.about-feature {
+  text-align: center;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.about-feature h3 {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.about-feature p {
+  color: #666;
+  line-height: 1.6;
 }
 
 .features-section {
   padding: 60px 20px;
   background: #f8f9fa;
+  border-radius: 12px;
 }
 
 .features-section h2 {
@@ -349,11 +275,16 @@ body, html {
 }
 
 .feature-item {
-  text-align: center;
-  padding: 30px;
   background: white;
+  padding: 30px;
   border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.feature-item:hover {
+  transform: translateY(-5px);
 }
 
 .feature-item .icon {
@@ -370,11 +301,24 @@ body, html {
 .feature-item p {
   color: #666;
   line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.feature-link {
+  color: <%= accentColor %>;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.feature-link:hover {
+  color: #0056b3;
 }
 
 .pricing-section {
   padding: 60px 20px;
   background: white;
+  border-radius: 12px;
 }
 
 .pricing-section h2 {
@@ -386,237 +330,39 @@ body, html {
 
 .pricing-grid {
   display: grid;
-  gap: 16px;
-  max-width: 1000px;
+  gap: 30px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
-/* 動的カラム数 */
 .pricing-grid-1 {
-  grid-template-columns: 300px;
-  max-width: 300px;
+  grid-template-columns: 1fr;
+  max-width: 400px;
 }
 
 .pricing-grid-2 {
   grid-template-columns: repeat(2, 300px);
-  max-width: 620px;
+  justify-content: center;
 }
 
 .pricing-grid-3 {
   grid-template-columns: repeat(3, 300px);
-  max-width: 940px;
+  justify-content: center;
 }
 
 .pricing-grid-4 {
   grid-template-columns: repeat(4, 300px);
-  max-width: 1260px;
-}
-
-/* レスポンシブ対応 */
-@media (max-width: 1260px) {
-  .pricing-grid-4 {
-    grid-template-columns: repeat(2, 300px);
-    max-width: 620px;
-  }
-}
-
-@media (max-width: 940px) {
-  .pricing-grid-3 {
-    grid-template-columns: repeat(2, 300px);
-    max-width: 620px;
-  }
-}
-
-@media (max-width: 640px) {
-  .pricing-grid-2,
-  .pricing-grid-3,
-  .pricing-grid-4 {
-    grid-template-columns: 300px;
-    max-width: 300px;
-  }
-}
-
-/* About セクション */
-.about-section {
-  text-align: center;
-  padding: 60px 20px;
-}
-
-.about-features {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 30px;
-  margin-top: 40px;
-}
-
-.about-feature {
-  padding: 20px;
-  background: #f8f9fa;
-  border-radius: 12px;
-}
-
-.about-feature h3 {
-  color: #007bff;
-  margin-bottom: 15px;
-}
-
-/* Gallery セクション */
-.gallery-section {
-  padding: 60px 20px;
-  text-align: center;
-}
-
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  margin-top: 30px;
-}
-
-.gallery-item {
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease;
-}
-
-.gallery-item:hover {
-  transform: scale(1.05);
-}
-
-/* Blog セクション */
-.blog-section {
-  padding: 60px 20px;
-}
-
-.blog-posts {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-  margin-top: 30px;
-}
-
-.blog-post {
-  background: #f8f9fa;
-  padding: 30px;
-  border-radius: 12px;
-  border-left: 4px solid #007bff;
-}
-
-.blog-date {
-  color: #666;
-  font-size: 14px;
-  margin: 10px 0;
-}
-
-.blog-link {
-  color: #007bff;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.blog-link:hover {
-  text-decoration: underline;
-}
-
-/* FAQ セクション */
-.faq-section {
-  padding: 60px 20px;
-}
-
-.faq-list {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.faq-item {
-  border: 1px solid #e9ecef;
-  border-radius: 8px;
-  margin-bottom: 15px;
-  overflow: hidden;
-}
-
-.faq-question {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  background: #f8f9fa;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.faq-question:hover {
-  background: #e9ecef;
-}
-
-.faq-question h3 {
-  margin: 0;
-  font-size: 16px;
-}
-
-.faq-toggle {
-  font-size: 20px;
-  font-weight: bold;
-  color: #007bff;
-}
-
-.faq-answer {
-  padding: 0 20px;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease, padding 0.3s ease;
-}
-
-.faq-item.active .faq-answer {
-  padding: 20px;
-  max-height: 200px;
-}
-
-/* Footer セクション（独立した要素） */
-.footer-section {
-  padding: 40px 20px;
-  text-align: center;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-  pointer-events: none;
-  transition: none !important;
-  transform: none !important;
-  margin: 0 !important;
-  border: none !important;
-  border-radius: 0 !important;
-}
-
-.footer-section .footer-content {
-  pointer-events: auto;
-  transition: none !important;
-  transform: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-.footer-content {
-  margin: 0;
-  padding: 0;
-}
-
-.footer-content p {
-  margin: 0;
-  font-size: 14px;
-  opacity: 0.8;
+  justify-content: center;
 }
 
 .pricing-card {
-  background: #f8f9fa;
-  border-radius: 12px;
-  padding: 40px 30px;
-  text-align: center;
+  background: white;
   border: 2px solid #e9ecef;
-  transition: transform 0.3s;
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
 }
 
 .pricing-card:hover {
@@ -630,7 +376,7 @@ body, html {
   color: #333;
 }
 
-.pricing-card .price {
+.price {
   font-size: 3rem;
   font-weight: bold;
   color: <%= accentColor %>;
@@ -646,24 +392,34 @@ body, html {
 .pricing-card li {
   padding: 10px 0;
   border-bottom: 1px solid #e9ecef;
+  color: #666;
+}
+
+.pricing-card li:last-child {
+  border-bottom: none;
 }
 
 .contact-section {
   padding: 60px 20px;
   background: #f8f9fa;
-  text-align: center;
+  border-radius: 12px;
 }
 
 .contact-section h2 {
+  text-align: center;
   font-size: 2.5rem;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   color: #333;
 }
 
 .contact-section p {
-  font-size: 1.2rem;
-  margin-bottom: 30px;
+  text-align: center;
+  font-size: 1.1rem;
   color: #666;
+  margin-bottom: 40px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .contact-info {
@@ -697,7 +453,7 @@ body, html {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 30px;
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -705,19 +461,305 @@ body, html {
   background: #f8f9fa;
   padding: 30px;
   border-radius: 12px;
+  text-align: center;
   border-left: 4px solid <%= accentColor %>;
 }
 
 .testimonial-card p {
+  font-size: 1.1rem;
   font-style: italic;
+  color: #666;
   margin-bottom: 20px;
-  color: #333;
   line-height: 1.6;
 }
 
-.testimonial-card .author {
+.author {
   font-weight: bold;
+  color: #333;
+}
+
+.gallery-section {
+  padding: 60px 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+
+.gallery-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.gallery-section p {
+  text-align: center;
+  font-size: 1.1rem;
   color: #666;
+  margin-bottom: 40px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.gallery-item {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.gallery-item:hover {
+  transform: scale(1.05);
+}
+
+.blog-section {
+  padding: 60px 20px;
+  background: white;
+  border-radius: 12px;
+}
+
+.blog-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.blog-section p {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 40px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.blog-posts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.blog-post {
+  background: #f8f9fa;
+  padding: 30px;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+.blog-post:hover {
+  transform: translateY(-5px);
+}
+
+.blog-post h3 {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.blog-date {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+}
+
+.blog-post p {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.blog-link {
+  color: <%= accentColor %>;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.blog-link:hover {
+  color: #0056b3;
+}
+
+.faq-section {
+  padding: 60px 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+
+.faq-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 50px;
+  color: #333;
+}
+
+.faq-list {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  background: white;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.faq-question {
+  padding: 20px;
+  background: #f8f9fa;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.3s ease;
+}
+
+.faq-question:hover {
+  background: #e9ecef;
+}
+
+.faq-question h3 {
+  margin: 0;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.faq-toggle {
+  font-size: 1.5rem;
+  color: #666;
+  transition: transform 0.3s ease;
+}
+
+.faq-answer {
+  padding: 20px;
+  background: white;
+}
+
+.faq-answer p {
+  margin: 0;
+  color: #666;
+  line-height: 1.6;
+}
+
+.footer-section {
+  padding: 40px 20px;
+  text-align: center;
+  margin-top: 40px;
+  position: relative;
+  pointer-events: none;
+  transition: none !important;
+  transform: none !important;
+}
+
+.footer-content {
+  pointer-events: auto;
+  transition: none !important;
+  transform: none !important;
+}
+
+.footer-content p {
+  margin: 0;
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.footer-hidden-indicator {
+  padding: 30px 20px;
+  text-align: center;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 2px dashed #6c757d;
+  border-radius: 12px;
+  margin-top: 40px;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.footer-hidden-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.footer-hidden-icon {
+  font-size: 2rem;
+  opacity: 0.6;
+  margin-bottom: 10px;
+}
+
+.footer-hidden-content p {
+  margin: 0;
+  color: #6c757d;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.show-footer-btn {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+}
+
+.show-footer-btn:hover {
+  background: linear-gradient(135deg, #0056b3 0%, #004085 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+}
+
+@media (max-width: 768px) {
+  .pricing-grid-2,
+  .pricing-grid-3,
+  .pricing-grid-4 {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+  }
+  
+  .hero-section h1 {
+    font-size: 2.5rem;
+  }
+  
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .contact-info {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+  
+  .blog-posts {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
 </head>
@@ -738,7 +780,6 @@ body, html {
 <button class="part-move-down-btn" onclick="movePartDown('<%= part.id || index %>')" title="下に移動">↓</button>
 </div>
 </div>
-<% } %>
 
 <% if (part.type === 'hero') { %>
 <div class="hero-section" style="background: linear-gradient(135deg, <%= part.backgroundColor || '#667eea' %> 0%, <%= part.backgroundColor || '#764ba2' %> 100%);">
@@ -911,8 +952,8 @@ body, html {
 </div>
 <% } %>
 
-
 </div>
+<% } %>
 <% }); %>
 <% } else { %>
 <div class="part empty-part" data-part-id="">
@@ -926,30 +967,172 @@ body, html {
 <% } %>
 
 <!-- フッター（独立した要素） -->
-<% if (parts && parts.some(p => p.type === 'footer')) { %>
-<% const footerPart = parts.find(p => p.type === 'footer'); %>
-<% if (footerPart.visible !== false) { %>
+<% 
+  let footerPart = null;
+  if (parts && parts.some(p => p.type === 'footer')) {
+    footerPart = parts.find(p => p.type === 'footer');
+  } else {
+    // フッターが存在しない場合はデフォルトのフッターを作成
+    footerPart = {
+      id: 'default-footer',
+      type: 'footer',
+      companyName: 'Your Company',
+      backgroundColor: '#2c3e50',
+      textColor: '#ffffff',
+      visible: true
+    };
+  }
+  
+  // フッターの表示状態を確認
+  const isFooterVisible = footerPart && footerPart.visible !== false;
+%>
+<% if (isFooterVisible) { %>
 <div class="footer-section" style="background-color: <%= footerPart.backgroundColor || '#2c3e50' %>; color: <%= footerPart.textColor || '#ffffff' %>;">
   <div class="footer-content">
     <p>&copy; <%= new Date().getFullYear() %> <%= footerPart.companyName %>. All rights reserved.</p>
+  </div>
+
+  <div class="footer-controls">
+    <button class="part-edit-btn" data-part-id="<%= footerPart.id || 'default-footer' %>">編集</button>
+    <button class="toggle-footer-btn" data-part-id="<%= footerPart.id || 'default-footer' %>">非表示</button>
   </div>
 </div>
 <% } else { %>
 <div class="footer-hidden-indicator">
   <div class="footer-hidden-content">
+    <div class="footer-hidden-icon">👁️‍🗨️</div>
     <p>フッターは非表示になっています</p>
-    <button class="show-footer-btn" onclick="window.parent.toggleFooterVisibility('<%= footerPart.id || parts.indexOf(footerPart) %>')">表示する</button>
+    <button class="show-footer-btn" data-part-id="<%= footerPart.id || 'default-footer' %>">表示する</button>
+  </div>
+  
+  <div class="footer-controls">
+    <button class="part-edit-btn" data-part-id="<%= footerPart.id || 'default-footer' %>">編集</button>
+    <button class="toggle-footer-btn" data-part-id="<%= footerPart.id || 'default-footer' %>">表示</button>
   </div>
 </div>
 <% } %>
-<% if (footerPart.visible !== false) { %>
-<div class="footer-controls">
-  <button class="part-edit-btn" onclick="window.parent.editPartFromParent('<%= footerPart.id || parts.indexOf(footerPart) %>')">編集</button>
-  <button class="toggle-footer-btn" onclick="window.parent.toggleFooterVisibility('<%= footerPart.id || parts.indexOf(footerPart) %>')">非表示</button>
+
 </div>
-<% } %>
-<% } %>
-</div>
+
+<script>
+// フッターのボタン機能を有効にする
+function editPartFromParent(partId) {
+  console.log('editPartFromParent called with partId:', partId);
+  try {
+    if (window.parent && window.parent.editPartFromParent) {
+      console.log('Calling parent editPartFromParent');
+      window.parent.editPartFromParent(partId);
+    } else if (window.parent && window.parent.postMessage) {
+      console.log('Using postMessage to communicate with parent');
+      window.parent.postMessage({
+        type: 'editPartFromParent',
+        partId: partId
+      }, '*');
+    } else {
+      console.error('No communication method available');
+    }
+  } catch (error) {
+    console.error('Error calling editPartFromParent:', error);
+  }
+}
+
+function toggleFooterVisibility(partId) {
+  console.log('toggleFooterVisibility called with partId:', partId);
+  try {
+    // まずpostMessageを試す（より確実）
+    if (window.parent && window.parent.postMessage) {
+      console.log('Using postMessage to communicate with parent');
+      window.parent.postMessage({
+        type: 'toggleFooterVisibility',
+        partId: partId
+      }, '*');
+    } else if (window.parent && window.parent.toggleFooterVisibility) {
+      console.log('Calling parent toggleFooterVisibility directly');
+      window.parent.toggleFooterVisibility(partId);
+    } else {
+      console.error('No communication method available');
+    }
+  } catch (error) {
+    console.error('Error calling toggleFooterVisibility:', error);
+  }
+}
+
+// イベントリスナーを設定する関数
+function setupButtonEventListeners() {
+  console.log('Setting up event listeners for footer buttons');
+  
+  // 編集ボタンのイベントリスナー
+  document.querySelectorAll('.part-edit-btn').forEach(button => {
+    button.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const partId = this.dataset.partId;
+      console.log('Edit button clicked for partId:', partId);
+      editPartFromParent(partId);
+    });
+  });
+  
+  // 表示/非表示ボタンのイベントリスナー
+  document.querySelectorAll('.toggle-footer-btn, .show-footer-btn').forEach(button => {
+    console.log('Setting up event listener for button:', button.className, button.dataset.partId);
+    button.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const partId = this.dataset.partId;
+      console.log('Toggle button clicked for partId:', partId, 'Button class:', this.className);
+      toggleFooterVisibility(partId);
+    });
+  });
+}
+
+// 複数のタイミングでイベントリスナーを設定
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', setupButtonEventListeners);
+} else {
+  setupButtonEventListeners();
+}
+
+// 少し遅延してからも設定（確実性のため）
+setTimeout(setupButtonEventListeners, 100);
+
+// さらに遅延して設定（表示ボタン用）
+setTimeout(() => {
+  console.log('Additional setup for show buttons');
+  document.querySelectorAll('.show-footer-btn').forEach(button => {
+    console.log('Additional setup for show button:', button.className, button.dataset.partId);
+    // 既存のイベントリスナーを削除してから追加
+    button.replaceWith(button.cloneNode(true));
+  });
+  setupButtonEventListeners();
+}, 500);
+
+// パーツの編集機能
+function editPart(partId) {
+  if (window.parent && window.parent.editPart) {
+    window.parent.editPart(partId);
+  }
+}
+
+// パーツの削除機能
+function deletePartFromPreview(partId) {
+  if (window.parent && window.parent.deletePartFromPreview) {
+    window.parent.deletePartFromPreview(partId);
+  }
+}
+
+// パーツの移動機能
+function movePartUp(partId) {
+  if (window.parent && window.parent.movePartUp) {
+    window.parent.movePartUp(partId);
+  }
+}
+
+function movePartDown(partId) {
+  if (window.parent && window.parent.movePartDown) {
+    window.parent.movePartDown(partId);
+  }
+}
+</script>
 
 </body>
 </html>

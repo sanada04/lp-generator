@@ -178,8 +178,10 @@ async function performPreviewUpdate() {
         newIframe.style.opacity = '1';
         hidePreviewLoading();
         
-        // フッターのコントロールボタンのイベントリスナーを設定
-        setupFooterControls();
+        // フッターのコントロールボタンのイベントリスナーを設定（少し遅延）
+        setTimeout(() => {
+          setupFooterControls();
+        }, 100);
         
         // 古いiframeを削除
         const oldIframe = document.getElementById('previewIframe');
@@ -355,10 +357,8 @@ function addPart(partType) {
   
   const newPart = { ...partTemplates[partType], id: Date.now() };
   
-  // フッターの場合は常に最後に追加
-  if (partType === 'footer') {
-    parts.push(newPart);
-  } else {
+  // フッター以外のパーツは常に最後のフッターの前に追加
+  if (partType !== 'footer') {
     // フッターが存在する場合は、その前に挿入
     const footerIndex = parts.findIndex(p => p.type === 'footer');
     if (footerIndex !== -1) {
@@ -366,6 +366,9 @@ function addPart(partType) {
     } else {
       parts.push(newPart);
     }
+  } else {
+    // フッターの場合は常に最後に追加
+    parts.push(newPart);
   }
   
   console.log('現在のパーツ:', parts);
@@ -563,10 +566,6 @@ function generatePartEditorHTML(part) {
           <label>会社名<input type="text" value="${part.companyName}" data-field="companyName"></label>
           <label>背景色<input type="color" value="${part.backgroundColor || '#2c3e50'}" data-field="backgroundColor"></label>
           <label>文字色<input type="color" value="${part.textColor || '#ffffff'}" data-field="textColor"></label>
-          <label class="checkbox-label">
-            <input type="checkbox" ${part.visible !== false ? 'checked' : ''} data-field="visible">
-            <span>フッターを表示する</span>
-          </label>
         </div>
       `;
     default:
@@ -676,7 +675,21 @@ function toggleFooterVisibility() {
 // 親ウィンドウからフッターの編集を処理
 window.editPartFromParent = function(partId) {
   console.log('親ウィンドウからパーツ編集:', partId);
-  const part = parts.find(p => String(p.id || parts.indexOf(p)) === String(partId));
+  let part = parts.find(p => String(p.id || parts.indexOf(p)) === String(partId));
+  
+  // デフォルトフッターの場合は新しく作成
+  if (partId === 'default-footer' && !part) {
+    part = {
+      id: Date.now(),
+      type: 'footer',
+      companyName: 'Your Company',
+      backgroundColor: '#2c3e50',
+      textColor: '#ffffff',
+      visible: true
+    };
+    parts.push(part);
+  }
+  
   if (part) {
     selectPart(part);
   }
@@ -684,11 +697,74 @@ window.editPartFromParent = function(partId) {
 
 // フッターの表示/非表示を切り替え
 window.toggleFooterVisibility = function(partId) {
-  const part = parts.find(p => String(p.id || parts.indexOf(p)) === String(partId));
-  if (part && part.type === 'footer') {
-    part.visible = !part.visible;
-    console.log('フッター表示切り替え:', part.visible ? '表示' : '非表示');
-    updatePreview();
+  try {
+    console.log('toggleFooterVisibility called with partId:', partId);
+    
+    let part = parts.find(p => String(p.id || parts.indexOf(p)) === String(partId));
+    
+    // デフォルトフッターの場合は新しく作成
+    if (partId === 'default-footer' && !part) {
+      part = {
+        id: Date.now(),
+        type: 'footer',
+        companyName: 'Your Company',
+        backgroundColor: '#2c3e50',
+        textColor: '#ffffff',
+        visible: true
+      };
+      parts.push(part);
+      console.log('デフォルトフッターを作成しました:', part);
+    }
+    
+    if (part && part.type === 'footer') {
+      part.visible = !part.visible;
+      console.log('フッター表示切り替え:', part.visible ? '表示' : '非表示');
+      
+      // フッターの表示/非表示はプレビュー画面でのみ制御
+      
+      updatePreview();
+    } else {
+      console.error('フッターパーツが見つかりません:', partId);
+    }
+  } catch (error) {
+    console.error('toggleFooterVisibility でエラーが発生しました:', error);
+  }
+};
+
+// モーダルの開閉
+function openNoticeModal() {
+  const modal = document.getElementById('noticeModal');
+  if (modal) {
+    modal.style.display = 'block';
+    // 背景のスクロールを無効化
+    document.body.style.overflow = 'hidden';
+    // ESCキーで閉じる
+    document.addEventListener('keydown', handleModalKeydown);
+  }
+}
+
+function closeNoticeModal() {
+  const modal = document.getElementById('noticeModal');
+  if (modal) {
+    modal.style.display = 'none';
+    // 背景のスクロールを有効化
+    document.body.style.overflow = 'hidden'; // 元々hiddenなので維持
+    // イベントリスナーを削除
+    document.removeEventListener('keydown', handleModalKeydown);
+  }
+}
+
+function handleModalKeydown(e) {
+  if (e.key === 'Escape') {
+    closeNoticeModal();
+  }
+}
+
+// モーダル外をクリックしたら閉じる
+window.onclick = function(event) {
+  const modal = document.getElementById('noticeModal');
+  if (event.target === modal) {
+    closeNoticeModal();
   }
 };
 
@@ -699,42 +775,34 @@ function setupFooterControls() {
     const footerControls = iframe.contentDocument.querySelectorAll('.footer-controls button');
     console.log('フッターコントロールボタン発見:', footerControls.length);
     footerControls.forEach(button => {
-      // 既存のイベントリスナーを削除
-      button.removeEventListener('click', handleFooterEditClick);
-      button.removeEventListener('mousedown', handleFooterEditClick);
-      button.removeEventListener('mouseup', handleFooterEditClick);
-      
-      // 複数のイベントで確実にキャッチ
-      button.addEventListener('click', handleFooterEditClick, true);
-      button.addEventListener('mousedown', handleFooterEditClick, true);
-      button.addEventListener('mouseup', handleFooterEditClick, true);
-      
-      // onclick属性も設定
-      const partId = button.getAttribute('onclick').match(/'([^']+)'/)[1];
-      button.setAttribute('onclick', `window.parent.editPartFromParent('${partId}'); return false;`);
+      try {
+        // data-part-id属性からpartIdを取得
+        const partId = button.getAttribute('data-part-id');
+        if (partId) {
+          console.log('フッターボタンのpartId:', partId);
+          
+          // 複数のイベントで確実にキャッチ
+          button.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('フッターボタンクリック:', partId, button.className);
+            
+            if (button.classList.contains('part-edit-btn')) {
+              editPartFromParent(partId);
+            } else if (button.classList.contains('toggle-footer-btn')) {
+              toggleFooterVisibility(partId);
+            }
+          }, true);
+        } else {
+          console.warn('フッターボタンにdata-part-id属性がありません:', button);
+        }
+      } catch (error) {
+        console.error('フッターボタンの設定でエラー:', error, button);
+      }
     });
   }
 }
 
-// フッター編集ボタンのクリックハンドラー
-function handleFooterEditClick(e) {
-  e.preventDefault();
-  e.stopPropagation();
-  e.stopImmediatePropagation();
-  
-  const partId = this.getAttribute('onclick').match(/'([^']+)'/)[1];
-  console.log('フッター編集ボタンクリック:', partId);
-  
-  // 少し遅延させてから処理を実行
-  setTimeout(() => {
-    const part = parts.find(p => String(p.id || parts.indexOf(p)) === String(partId));
-    if (part) {
-      selectPart(part);
-    }
-  }, 10);
-  
-  return false;
-}
 
 // パーツのフィールドを更新
 function updatePartField(part, field, value) {
@@ -857,6 +925,33 @@ function compressImage(dataUrl, callback) {
 form.addEventListener("input", updatePreview);
 form.addEventListener("change", updatePreview);
 
+// 表示/非表示チェックボックスのイベントハンドラー
+document.addEventListener('change', function(e) {
+  if (e.target && e.target.id === 'part-visible') {
+    const part = selectedPart;
+    if (part) {
+      part.visible = e.target.checked;
+      console.log('パーツ表示切り替え:', part.visible ? '表示' : '非表示', part.type);
+      updatePreview();
+    }
+  }
+});
+
+// iframeからのpostMessageを処理
+window.addEventListener('message', function(event) {
+  console.log('Received message from iframe:', event.data);
+  
+  if (event.data && event.data.type === 'toggleFooterVisibility') {
+    const partId = event.data.partId;
+    console.log('Processing toggleFooterVisibility for partId:', partId);
+    toggleFooterVisibility(partId);
+  } else if (event.data && event.data.type === 'editPartFromParent') {
+    const partId = event.data.partId;
+    console.log('Processing editPartFromParent for partId:', partId);
+    editPartFromParent(partId);
+  }
+});
+
 // グローバル関数の設定
 function setupGlobalFunctions(iframeDoc) {
   if (iframeDoc && iframeDoc.defaultView) {
@@ -884,8 +979,15 @@ function setupGlobalFunctions(iframeDoc) {
     iframeDoc.defaultView.movePartUp = function(partId) {
       console.log('パーツ上移動:', partId);
       const partIndex = parts.findIndex(p => String(p.id || parts.indexOf(p)) === String(partId));
+      const part = parts[partIndex];
+      
+      // フッターの移動は禁止
+      if (part && part.type === 'footer') {
+        console.log('フッターは移動できません');
+        return;
+      }
+      
       if (partIndex > 0) {
-        const part = parts[partIndex];
         parts.splice(partIndex, 1);
         parts.splice(partIndex - 1, 0, part);
         console.log('上移動完了:', parts.map(p => p.type));
@@ -897,8 +999,15 @@ function setupGlobalFunctions(iframeDoc) {
     iframeDoc.defaultView.movePartDown = function(partId) {
       console.log('パーツ下移動:', partId);
       const partIndex = parts.findIndex(p => String(p.id || parts.indexOf(p)) === String(partId));
+      const part = parts[partIndex];
+      
+      // フッターの移動は禁止
+      if (part && part.type === 'footer') {
+        console.log('フッターは移動できません');
+        return;
+      }
+      
       if (partIndex < parts.length - 1) {
-        const part = parts[partIndex];
         parts.splice(partIndex, 1);
         parts.splice(partIndex + 1, 0, part);
         console.log('下移動完了:', parts.map(p => p.type));
@@ -916,13 +1025,15 @@ function updateMoveButtons(iframeDoc) {
   partElements.forEach((partElement, index) => {
     const upBtn = partElement.querySelector('.part-move-up-btn');
     const downBtn = partElement.querySelector('.part-move-down-btn');
+    const partId = partElement.dataset.partId;
+    const part = parts.find(p => String(p.id || parts.indexOf(p)) === String(partId));
     
     if (upBtn) {
-      upBtn.disabled = index === 0;
+      upBtn.disabled = index === 0 || (part && part.type === 'footer');
     }
     
     if (downBtn) {
-      downBtn.disabled = index === parts.length - 1;
+      downBtn.disabled = index === parts.length - 1 || (part && part.type === 'footer');
     }
   });
 }
