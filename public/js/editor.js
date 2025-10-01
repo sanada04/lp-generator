@@ -7,6 +7,29 @@ const partEditorContent = document.getElementById("part-editor-content");
 let parts = [];
 let selectedPart = null;
 let updateTimeout = null;
+let hasUnsavedChanges = false;
+
+// 変更を検知する関数
+function markAsChanged() {
+  hasUnsavedChanges = true;
+  console.log('未保存の変更を検知しました');
+}
+
+// 変更を保存済みとしてマークする関数
+function markAsSaved() {
+  hasUnsavedChanges = false;
+  console.log('変更を保存済みとしてマークしました');
+}
+
+// ページリロード時の警告
+window.addEventListener('beforeunload', function(e) {
+  if (hasUnsavedChanges) {
+    const message = '未保存の変更があります。ページを離れると変更が失われます。';
+    e.preventDefault();
+    e.returnValue = message;
+    return message;
+  }
+});
 
 // パーツテンプレート
 const partTemplates = {
@@ -372,6 +395,7 @@ function addPart(partType) {
   }
   
   console.log('現在のパーツ:', parts);
+  markAsChanged();
   updatePreview();
   selectPart(newPart);
 }
@@ -601,6 +625,7 @@ function handlePartInput(e) {
   if (part && field) {
     console.log('パーツ入力変更:', field, e.target.value);
     updatePartField(part, field, e.target.value);
+    markAsChanged();
   }
 }
 
@@ -991,6 +1016,7 @@ function setupGlobalFunctions(iframeDoc) {
         parts.splice(partIndex, 1);
         parts.splice(partIndex - 1, 0, part);
         console.log('上移動完了:', parts.map(p => p.type));
+        markAsChanged();
         updatePreview();
         updateMoveButtons(iframeDoc);
       }
@@ -1011,6 +1037,7 @@ function setupGlobalFunctions(iframeDoc) {
         parts.splice(partIndex, 1);
         parts.splice(partIndex + 1, 0, part);
         console.log('下移動完了:', parts.map(p => p.type));
+        markAsChanged();
         updatePreview();
         updateMoveButtons(iframeDoc);
       }
@@ -1115,6 +1142,7 @@ function deletePart(part) {
     if (partIndex !== -1) {
       parts.splice(partIndex, 1);
       console.log('パーツ削除:', part.type);
+      markAsChanged();
       updatePreview();
       
       // パーツエディターをリセット
