@@ -36,6 +36,72 @@ body {
   color: #333;
 }
 
+/* アコーディオンメニュー */
+.accordion {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+}
+
+.accordion-item {
+  border-bottom: 1px solid #e9ecef;
+}
+
+.accordion-item:last-child {
+  border-bottom: none;
+}
+
+.accordion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #f8f9fa;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  user-select: none;
+}
+
+.accordion-header:hover {
+  background: #e9ecef;
+}
+
+.accordion-header.active {
+  background: #007bff;
+  color: white;
+}
+
+.accordion-title {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.accordion-icon {
+  font-size: 12px;
+  transition: transform 0.2s ease;
+}
+
+.accordion-header.active .accordion-icon {
+  transform: rotate(180deg);
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  background: white;
+}
+
+.accordion-content.active {
+  max-height: 500px;
+}
+
+.accordion-content .part-item {
+  margin: 8px 16px;
+  border-radius: 6px;
+}
+
 .parts-list {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -440,6 +506,26 @@ body {
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 14px;
+}
+
+.checkbox-label {
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  flex-direction: row !important;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: auto !important;
+  margin: 0 !important;
+  cursor: pointer;
+}
+
+.checkbox-label span {
+  margin: 0 !important;
+  font-size: 14px;
+  color: #333;
 }
 
 .features-list {

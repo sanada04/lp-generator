@@ -53,6 +53,57 @@ const partTemplates = {
       { name: '田中さん', comment: 'とても良いサービスでした' },
       { name: '佐藤さん', comment: '満足しています' }
     ]
+  },
+  about: {
+    type: 'about',
+    title: '私たちについて',
+    description: '会社の理念やビジョンについて説明します。',
+    image: null,
+    features: [
+      { title: 'ミッション', description: '私たちの使命' },
+      { title: 'ビジョン', description: '目指す未来' },
+      { title: 'バリュー', description: '大切にする価値観' }
+    ]
+  },
+  gallery: {
+    type: 'gallery',
+    title: 'ギャラリー',
+    description: '作品や商品の写真を紹介します。',
+    images: []
+  },
+  blog: {
+    type: 'blog',
+    title: 'ブログ',
+    description: '最新の情報をお届けします。',
+    posts: [
+      {
+        title: 'ブログ記事1',
+        date: '2024-01-01',
+        excerpt: '記事の概要...',
+        link: '#'
+      }
+    ]
+  },
+  faq: {
+    type: 'faq',
+    title: 'よくある質問',
+    faqs: [
+      {
+        question: '質問1',
+        answer: '回答1'
+      },
+      {
+        question: '質問2',
+        answer: '回答2'
+      }
+    ]
+  },
+  footer: {
+    type: 'footer',
+    companyName: '会社名',
+    backgroundColor: '#2c3e50',
+    textColor: '#ffffff',
+    visible: true
   }
 };
 
@@ -126,6 +177,9 @@ async function performPreviewUpdate() {
       setTimeout(() => {
         newIframe.style.opacity = '1';
         hidePreviewLoading();
+        
+        // フッターのコントロールボタンのイベントリスナーを設定
+        setupFooterControls();
         
         // 古いiframeを削除
         const oldIframe = document.getElementById('previewIframe');
@@ -300,7 +354,20 @@ function addPart(partType) {
   }
   
   const newPart = { ...partTemplates[partType], id: Date.now() };
-  parts.push(newPart);
+  
+  // フッターの場合は常に最後に追加
+  if (partType === 'footer') {
+    parts.push(newPart);
+  } else {
+    // フッターが存在する場合は、その前に挿入
+    const footerIndex = parts.findIndex(p => p.type === 'footer');
+    if (footerIndex !== -1) {
+      parts.splice(footerIndex, 0, newPart);
+    } else {
+      parts.push(newPart);
+    }
+  }
+  
   console.log('現在のパーツ:', parts);
   updatePreview();
   selectPart(newPart);
@@ -319,19 +386,21 @@ function showPartEditor(part) {
   
   partEditorContent.innerHTML = generatePartEditorHTML(part);
   
-  // 削除ボタンを追加
-  const deleteButton = document.createElement('button');
-  deleteButton.textContent = 'パーツを削除';
-  deleteButton.style.background = '#dc3545';
-  deleteButton.style.color = 'white';
-  deleteButton.style.border = 'none';
-  deleteButton.style.padding = '8px 16px';
-  deleteButton.style.borderRadius = '4px';
-  deleteButton.style.cursor = 'pointer';
-  deleteButton.style.marginTop = '10px';
-  deleteButton.onclick = () => deletePart(part);
-  
-  partEditorContent.appendChild(deleteButton);
+  // フッター以外の場合のみ削除ボタンを追加
+  if (part.type !== 'footer') {
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'パーツを削除';
+    deleteButton.style.background = '#dc3545';
+    deleteButton.style.color = 'white';
+    deleteButton.style.border = 'none';
+    deleteButton.style.padding = '8px 16px';
+    deleteButton.style.borderRadius = '4px';
+    deleteButton.style.cursor = 'pointer';
+    deleteButton.style.marginTop = '10px';
+    deleteButton.onclick = () => deletePart(part);
+    
+    partEditorContent.appendChild(deleteButton);
+  }
   
   // DOM更新後にイベントリスナーを追加
   setTimeout(() => {
@@ -421,6 +490,85 @@ function generatePartEditorHTML(part) {
           </div>
         </div>
       `;
+    case 'about':
+      return `
+        <div class="part-editor-form">
+          <label>タイトル<input type="text" value="${part.title}" data-field="title"></label>
+          <label>説明文<textarea data-field="description">${part.description}</textarea></label>
+          <label>画像<input type="file" data-field="image" accept="image/*"></label>
+          <div class="about-features-list">
+            <h4>特徴項目</h4>
+            ${part.features.map((feature, index) => `
+              <div class="about-feature-item">
+                <label>タイトル<input type="text" value="${feature.title}" data-field="features.${index}.title"></label>
+                <label>説明<textarea data-field="features.${index}.description">${feature.description}</textarea></label>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    case 'gallery':
+      return `
+        <div class="part-editor-form">
+          <label>タイトル<input type="text" value="${part.title}" data-field="title"></label>
+          <label>説明文<textarea data-field="description">${part.description}</textarea></label>
+          <label>画像を追加<input type="file" data-field="galleryImages" accept="image/*" multiple></label>
+          <div class="gallery-images-list">
+            <h4>ギャラリー画像</h4>
+            ${part.images && part.images.length > 0 ? part.images.map((image, index) => `
+              <div class="gallery-image-item">
+                <img src="${image}" alt="ギャラリー画像" style="width: 100px; height: 100px; object-fit: cover; border-radius: 4px;">
+                <button type="button" onclick="removeGalleryImage('${part.id || parts.indexOf(part)}', ${index})">削除</button>
+              </div>
+            `).join('') : '<p>画像がありません</p>'}
+          </div>
+        </div>
+      `;
+    case 'blog':
+      return `
+        <div class="part-editor-form">
+          <label>タイトル<input type="text" value="${part.title}" data-field="title"></label>
+          <label>説明文<textarea data-field="description">${part.description}</textarea></label>
+          <div class="blog-posts-list">
+            <h4>ブログ記事</h4>
+            ${part.posts.map((post, index) => `
+              <div class="blog-post-item">
+                <label>記事タイトル<input type="text" value="${post.title}" data-field="posts.${index}.title"></label>
+                <label>日付<input type="date" value="${post.date}" data-field="posts.${index}.date"></label>
+                <label>概要<textarea data-field="posts.${index}.excerpt">${post.excerpt}</textarea></label>
+                <label>リンク<input type="url" value="${post.link || '#'}" data-field="posts.${index}.link" placeholder="https://example.com"></label>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    case 'faq':
+      return `
+        <div class="part-editor-form">
+          <label>タイトル<input type="text" value="${part.title}" data-field="title"></label>
+          <div class="faq-list">
+            <h4>よくある質問</h4>
+            ${part.faqs.map((faq, index) => `
+              <div class="faq-item">
+                <label>質問<input type="text" value="${faq.question}" data-field="faqs.${index}.question"></label>
+                <label>回答<textarea data-field="faqs.${index}.answer">${faq.answer}</textarea></label>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    case 'footer':
+      return `
+        <div class="part-editor-form">
+          <label>会社名<input type="text" value="${part.companyName}" data-field="companyName"></label>
+          <label>背景色<input type="color" value="${part.backgroundColor || '#2c3e50'}" data-field="backgroundColor"></label>
+          <label>文字色<input type="color" value="${part.textColor || '#ffffff'}" data-field="textColor"></label>
+          <label class="checkbox-label">
+            <input type="checkbox" ${part.visible !== false ? 'checked' : ''} data-field="visible">
+            <span>フッターを表示する</span>
+          </label>
+        </div>
+      `;
     default:
       return `<p>このパーツの編集は準備中です。</p>`;
   }
@@ -463,6 +611,11 @@ function handlePartChange(e) {
   if (part && e.target.type === 'file') {
     console.log('パーツファイル変更');
     handleImageUpload(part, e.target);
+  } else if (part && e.target.type === 'checkbox') {
+    const field = e.target.dataset.field;
+    const value = e.target.checked;
+    console.log('パーツチェックボックス変更:', field, value);
+    updatePartField(part, field, value);
   }
 }
 
@@ -496,6 +649,93 @@ function removePricingPlan(partId, planIndex) {
   }
 }
 
+// ギャラリー画像削除
+function removeGalleryImage(partId, imageIndex) {
+  const part = parts.find(p => String(p.id || parts.indexOf(p)) === String(partId));
+  if (part && part.type === 'gallery' && part.images && part.images.length > 0) {
+    part.images.splice(imageIndex, 1);
+    console.log('ギャラリー画像削除:', part.images.length, '個の画像');
+    updatePreview();
+    showPartEditor(part);
+  }
+}
+
+// フッターの表示・非表示を制御
+function toggleFooterVisibility() {
+  let footer = parts.find(p => p.type === 'footer');
+  if (!footer) {
+    // フッターが存在しない場合は作成
+    footer = { ...partTemplates.footer, id: Date.now() };
+    parts.push(footer);
+  }
+  footer.visible = !footer.visible;
+  console.log('フッター表示状態:', footer.visible);
+  updatePreview();
+}
+
+// 親ウィンドウからフッターの編集を処理
+window.editPartFromParent = function(partId) {
+  console.log('親ウィンドウからパーツ編集:', partId);
+  const part = parts.find(p => String(p.id || parts.indexOf(p)) === String(partId));
+  if (part) {
+    selectPart(part);
+  }
+};
+
+// フッターの表示/非表示を切り替え
+window.toggleFooterVisibility = function(partId) {
+  const part = parts.find(p => String(p.id || parts.indexOf(p)) === String(partId));
+  if (part && part.type === 'footer') {
+    part.visible = !part.visible;
+    console.log('フッター表示切り替え:', part.visible ? '表示' : '非表示');
+    updatePreview();
+  }
+};
+
+// フッターのコントロールボタンのイベントリスナーを設定
+function setupFooterControls() {
+  const iframe = document.getElementById('previewIframe') || document.getElementById('preview');
+  if (iframe && iframe.contentDocument) {
+    const footerControls = iframe.contentDocument.querySelectorAll('.footer-controls button');
+    console.log('フッターコントロールボタン発見:', footerControls.length);
+    footerControls.forEach(button => {
+      // 既存のイベントリスナーを削除
+      button.removeEventListener('click', handleFooterEditClick);
+      button.removeEventListener('mousedown', handleFooterEditClick);
+      button.removeEventListener('mouseup', handleFooterEditClick);
+      
+      // 複数のイベントで確実にキャッチ
+      button.addEventListener('click', handleFooterEditClick, true);
+      button.addEventListener('mousedown', handleFooterEditClick, true);
+      button.addEventListener('mouseup', handleFooterEditClick, true);
+      
+      // onclick属性も設定
+      const partId = button.getAttribute('onclick').match(/'([^']+)'/)[1];
+      button.setAttribute('onclick', `window.parent.editPartFromParent('${partId}'); return false;`);
+    });
+  }
+}
+
+// フッター編集ボタンのクリックハンドラー
+function handleFooterEditClick(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  e.stopImmediatePropagation();
+  
+  const partId = this.getAttribute('onclick').match(/'([^']+)'/)[1];
+  console.log('フッター編集ボタンクリック:', partId);
+  
+  // 少し遅延させてから処理を実行
+  setTimeout(() => {
+    const part = parts.find(p => String(p.id || parts.indexOf(p)) === String(partId));
+    if (part) {
+      selectPart(part);
+    }
+  }, 10);
+  
+  return false;
+}
+
 // パーツのフィールドを更新
 function updatePartField(part, field, value) {
   if (field.includes('.')) {
@@ -512,8 +752,41 @@ function updatePartField(part, field, value) {
 
 // 画像アップロード処理
 function handleImageUpload(part, fileInput) {
-  const file = fileInput.files[0];
-  if (file) {
+  const files = fileInput.files;
+  if (files.length === 0) return;
+  
+  // ギャラリーの場合は複数ファイル処理
+  if (part.type === 'gallery' && fileInput.dataset.field === 'galleryImages') {
+    if (!part.images) part.images = [];
+    
+    Array.from(files).forEach(file => {
+      // ファイルサイズをチェック（5MB制限）
+      if (file.size > 5 * 1024 * 1024) {
+        alert(`画像ファイル「${file.name}」は5MB以下にしてください。`);
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const imageDataUrl = e.target.result;
+        
+        // 画像を圧縮
+        compressImage(imageDataUrl, (compressedDataUrl) => {
+          part.images.push(compressedDataUrl);
+          console.log('ギャラリー画像追加:', part.images.length, '個の画像');
+          updatePreview();
+          showPartEditor(part);
+        });
+      };
+      reader.onerror = (e) => {
+        console.error('画像読み込みエラー:', e);
+        alert('画像の読み込みに失敗しました。');
+      };
+      reader.readAsDataURL(file);
+    });
+  } else {
+    // 単一画像の処理
+    const file = files[0];
     // ファイルサイズをチェック（5MB制限）
     if (file.size > 5 * 1024 * 1024) {
       alert('画像ファイルは5MB以下にしてください。');
@@ -599,6 +872,11 @@ function setupGlobalFunctions(iframeDoc) {
       console.log('プレビューからパーツ削除:', partId);
       const part = parts.find(p => String(p.id || parts.indexOf(p)) === String(partId));
       if (part) {
+        // フッターは削除できない
+        if (part.type === 'footer') {
+          alert('フッターは削除できません。');
+          return;
+        }
         deletePart(part);
       }
     };
@@ -685,28 +963,42 @@ function setupPartInteractions(iframeDoc) {
   partElements.forEach(partElement => {
     partElement.draggable = false;
     
-    // パーツクリックで編集
-    partElement.addEventListener('click', (e) => {
-      // ボタンがクリックされた場合は無視
-      if (e.target.classList.contains('part-edit-btn') || 
-          e.target.classList.contains('part-delete-btn') ||
-          e.target.classList.contains('part-move-up-btn') ||
-          e.target.classList.contains('part-move-down-btn')) {
-        return;
-      }
-      
-      const partId = partElement.dataset.partId;
-      const part = parts.find(p => String(p.id || parts.indexOf(p)) === String(partId));
-      if (part) {
+    // パーツクリックで編集（空のパーツは除外）
+    const partId = partElement.dataset.partId;
+    const part = parts.find(p => String(p.id || parts.indexOf(p)) === String(partId));
+    
+    // 空のパーツの場合はクリックイベントを設定しない
+    if (partElement.classList.contains('empty-part')) {
+      console.log('空のパーツ要素 - クリックイベントを設定しません');
+      return;
+    }
+    
+    // パーツが存在し、フッターでない場合のみクリックイベントを設定
+    if (part && part.type !== 'footer') {
+      partElement.addEventListener('click', (e) => {
+        // ボタンがクリックされた場合は無視
+        if (e.target.classList.contains('part-edit-btn') || 
+            e.target.classList.contains('part-delete-btn') ||
+            e.target.classList.contains('part-move-up-btn') ||
+            e.target.classList.contains('part-move-down-btn')) {
+          return;
+        }
+        
         selectPart(part);
-      }
-    });
+      });
+    }
   });
 }
 
 
 // パーツを削除
 function deletePart(part) {
+  // フッターは削除できない
+  if (part.type === 'footer') {
+    alert('フッターは削除できません。');
+    return;
+  }
+  
   if (confirm('このパーツを削除しますか？')) {
     const partIndex = parts.findIndex(p => p === part);
     if (partIndex !== -1) {
@@ -734,6 +1026,41 @@ function initTabs() {
     button.addEventListener('click', () => {
       const targetTab = button.dataset.tab;
       switchToTab(targetTab);
+    });
+  });
+}
+
+// アコーディオンメニュー初期化
+function initAccordion() {
+  const accordionHeaders = document.querySelectorAll('.accordion-header');
+  accordionHeaders.forEach(header => {
+    header.addEventListener('click', () => {
+      const accordionItem = header.parentElement;
+      const content = accordionItem.querySelector('.accordion-content');
+      const icon = header.querySelector('.accordion-icon');
+      
+      // 他のアコーディオンを閉じる
+      accordionHeaders.forEach(otherHeader => {
+        if (otherHeader !== header) {
+          const otherItem = otherHeader.parentElement;
+          const otherContent = otherItem.querySelector('.accordion-content');
+          const otherIcon = otherHeader.querySelector('.accordion-icon');
+          
+          otherHeader.classList.remove('active');
+          otherContent.classList.remove('active');
+          otherIcon.style.transform = 'rotate(0deg)';
+        }
+      });
+      
+      // 現在のアコーディオンを切り替え
+      header.classList.toggle('active');
+      content.classList.toggle('active');
+      
+      if (header.classList.contains('active')) {
+        icon.style.transform = 'rotate(180deg)';
+      } else {
+        icon.style.transform = 'rotate(0deg)';
+      }
     });
   });
 }
@@ -864,9 +1191,18 @@ window.addEventListener("DOMContentLoaded", () => {
   setTimeout(() => {
     console.log('初期化開始');
     initTabs();
+    initAccordion();
     initDragAndDrop();
     setupPreviewClickHandler();
     initPreviewButtons();
+    
+    // フッターが存在しない場合は自動追加
+    if (!parts.find(p => p.type === 'footer')) {
+      const footer = { ...partTemplates.footer, id: Date.now() };
+      parts.push(footer);
+      console.log('フッターを自動追加');
+    }
+    
     updatePreview();
   }, 100);
 });
