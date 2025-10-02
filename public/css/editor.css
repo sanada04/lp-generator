@@ -12,7 +12,6 @@ html, body {
   background: #fff;
   color: #333;
   padding: 15px 0;
-  box-shadow: 0 2px 15px rgba(255, 154, 158, 0.3);
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -388,8 +387,6 @@ html, body {
 
 .part-item:hover {
   border-color: #007bff;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 .part-item:active {
