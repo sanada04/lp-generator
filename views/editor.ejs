@@ -6,42 +6,196 @@
 <link rel="stylesheet" href="/css/editor.css">
 </head>
 <body>
+<!-- ヘッダー -->
+<header class="page-header">
+  <div class="header-content">
+    <div class="header-left">
+      <h1 class="header-title"><img src="/images/logo.png" alt="LPジェネレーター" class="header-logo" onerror="this.style.display='none'"></h1>
+    </div>
+      <div class="header-right">
+        <button class="header-notice-btn" onclick="openNoticeModal()">
+          <span class="notice-text">使い方ガイド</span>
+        </button>
+      </div>
+  </div>
+</header>
+
 <div class="editor-container">
 <!-- プレビュー左 -->
 <div class="preview">
 <iframe id="previewIframe"></iframe>
 </div>
 
+
 <!-- 編集フォーム右 -->
 <div class="sidebar">
-<h2>編集フォーム</h2>
+<!-- タブナビゲーション -->
+<div class="tab-navigation">
+<button class="tab-button active" data-tab="general">一般設定</button>
+<button class="tab-button" data-tab="parts">パーツ編集</button>
+<button class="tab-button" data-tab="preview">プレビュー</button>
+</div>
+
+<!-- 一般設定タブ -->
+<div id="general-tab" class="tab-content active">
+<h2>一般設定</h2>
+
+<!-- カラー設定セクション -->
+<div class="color-settings">
+<h3>カラー設定</h3>
 <form id="editorForm" enctype="multipart/form-data">
-<label>タイトル
-<input type="text" name="title" placeholder="サンプルタイトル">
+<label for="bgColor">
+<span>背景色</span>
+<input type="color" id="bgColor" name="bgColor" value="#ffffff">
 </label>
-<label>説明文
-<textarea name="description" rows="3" placeholder="サンプル説明文"></textarea>
+<label for="textColor">
+<span>文字色</span>
+<input type="color" id="textColor" name="textColor" value="#333333">
 </label>
-<label>CTAボタン
-<input type="text" name="cta" placeholder="ボタンの文言">
-</label>
-<label>背景色
-<input type="color" name="bgColor" value="#ffffff">
-</label>
-<label>文字色
-<input type="color" name="textColor" value="#333333">
-</label>
-<label>アクセントカラー
-<input type="color" name="accentColor" value="#ff0000">
-</label>
-<label>ロゴアップロード
-<input type="file" name="logo" accept="image/*">
-</label>
-<label>メインビジュアル画像
-<input type="file" name="mainvisual" accept="image/*">
+<label for="accentColor">
+<span>アクセントカラー</span>
+<input type="color" id="accentColor" name="accentColor" value="#ff0000">
 </label>
 </form>
 </div>
+
+<!-- パーツパレット -->
+<div class="parts-palette">
+<h2>パーツを追加</h2>
+<div class="accordion">
+<div class="accordion-item">
+<div class="accordion-header" data-category="main">
+<span class="accordion-title">メインセクション</span>
+<span class="accordion-icon">▼</span>
+</div>
+<div class="accordion-content">
+<div class="part-item" draggable="true" data-part="hero">
+<div class="part-icon"><img src="/images/parts/hero.png" alt="ヒーロー"></div>
+<div class="part-name">ヒーロー</div>
+</div>
+<div class="part-item" draggable="true" data-part="about">
+<div class="part-icon"><img src="/images/parts/company.png" alt="私たちについて"></div>
+<div class="part-name">私たちについて</div>
+</div>
+</div>
+</div>
+
+<div class="accordion-item">
+<div class="accordion-header" data-category="content">
+<span class="accordion-title">コンテンツ</span>
+<span class="accordion-icon">▼</span>
+</div>
+<div class="accordion-content">
+<div class="part-item" draggable="true" data-part="features">
+<div class="part-icon"><img src="/images/parts/features.png" alt="特徴"></div>
+<div class="part-name">特徴</div>
+</div>
+<div class="part-item" draggable="true" data-part="gallery">
+<div class="part-icon"><img src="/images/parts/image.png" alt="ギャラリー"></div>
+<div class="part-name">ギャラリー</div>
+</div>
+<div class="part-item" draggable="true" data-part="faq">
+<div class="part-icon"><img src="/images/parts/faq.png" alt="よくある質問"></div>
+<div class="part-name">よくある質問</div>
+</div>
+</div>
+</div>
+
+<div class="accordion-item">
+<div class="accordion-header" data-category="business">
+<span class="accordion-title">ビジネス</span>
+<span class="accordion-icon">▼</span>
+</div>
+<div class="accordion-content">
+<div class="part-item" draggable="true" data-part="pricing">
+<div class="part-icon"><img src="/images/parts/price.png" alt="料金"></div>
+<div class="part-name">料金</div>
+</div>
+<div class="part-item" draggable="true" data-part="testimonial">
+<div class="part-icon"><img src="/images/parts/voice.png" alt="お客様の声"></div>
+<div class="part-name">お客様の声</div>
+</div>
+<div class="part-item" draggable="true" data-part="contact">
+<div class="part-icon"><img src="/images/parts/inquiry.png" alt="お問い合わせ"></div>
+<div class="part-name">お問い合わせ</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- パーツ編集タブ -->
+<div id="parts-tab" class="tab-content">
+<h2>パーツ編集</h2>
+<div id="part-editor">
+<div id="part-editor-content">
+<p class="no-part-selected">パーツを選択して編集してください</p>
+</div>
+</div>
+</div>
+
+<!-- プレビュータブ -->
+<div id="preview-tab" class="tab-content">
+<h2>書き出しプレビュー</h2>
+<div class="preview-controls">
+<button id="openPreviewBtn" class="preview-btn">新しいタブで開く</button>
+<button id="downloadHtmlBtn" class="preview-btn">HTMLをダウンロード</button>
+</div>
+<div class="preview-info">
+<p>このプレビューは実際に書き出されるランディングページと同じ内容です。</p>
+<p>編集用のボタンやコントロールは表示されません。</p>
+</div>
+</div>
+  </div>
+</div>
+
+<!-- モーダル -->
+<div id="noticeModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>使い方ガイド</h2>
+      <button class="modal-close" onclick="closeNoticeModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="guide-section">
+        <h3>基本的な使い方</h3>
+        <p>こんにちは！簡単にランディングページを作成できます。以下の手順で進めてください：</p>
+        <ol>
+          <li><strong>パーツを選択</strong>：左側のパレットからパーツをクリックして追加</li>
+          <li><strong>パーツを編集</strong>：プレビューでパーツをクリックして編集</li>
+          <li><strong>順番を変更</strong>：上下ボタンでパーツの順番を調整</li>
+          <li><strong>プレビュー確認</strong>：「プレビュー」タブで最終確認</li>
+        </ol>
+      </div>
+      
+      <div class="guide-section">
+        <h3>カスタマイズ</h3>
+        <ul>
+          <li><strong>色の変更</strong>：「一般設定」で背景色、文字色、アクセントカラーを設定</li>
+          <li><strong>画像の追加</strong>：各パーツで画像をアップロード可能</li>
+          <li><strong>リンクの設定</strong>：ボタンやメニューにリンクを設定可能</li>
+        </ul>
+      </div>
+      
+      <div class="guide-section">
+        <h3>パーツの種類</h3>
+        <ul>
+          <li><strong>ヒーロー</strong>：メインビジュアルとキャッチコピー</li>
+          <li><strong>特徴</strong>：サービスの特徴を紹介</li>
+          <li><strong>料金</strong>：プランと価格を表示（最大4プラン）</li>
+          <li><strong>お問い合わせ</strong>：連絡先情報</li>
+          <li><strong>その他</strong>：ギャラリー、ブログ、FAQなど</li>
+        </ul>
+      </div>
+      
+      <div class="guide-section">
+        <h3>注意事項</h3>
+        <p>このツールはプレビュー用です。実際の公開前に必ず内容を確認してください。</p>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script src="/js/editor.js"></script>

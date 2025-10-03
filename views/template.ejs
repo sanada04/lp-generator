@@ -2,49 +2,1135 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title><%= title %></title>
+<title>ランディングページ</title>
 <link rel="stylesheet" href="/css/base.css">
+<style>
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+.preview-container {
+  height: 100vh;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 20px;
+  padding-bottom: 20px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.part {
+  margin-bottom: 40px;
+  padding: 20px;
+  border: 2px dashed #ddd;
+  position: relative;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  background: #fafafa;
+}
+
+.part:hover {
+  border-color: #007bff;
+  border-style: solid;
+  background: #f8f9ff;
+}
+
+.part:hover .part-controls {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* フッターのコントロール（独立した要素） */
+.footer-controls {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 10000 !important;
+  pointer-events: auto;
+}
+
+.footer-controls button {
+  padding: 8px 12px;
+  font-size: 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 10001 !important;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.footer-controls button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.part-controls {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  gap: 8px;
+  opacity: 0;
+  transform: translateY(-15px);
+  transition: all 0.3s ease;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 8px;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.part-controls button {
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #007bff;
+  color: white;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+  min-width: 60px;
+}
+
+.part-controls button:hover {
+  background: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+}
+
+.part-move-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-left: 4px;
+  padding-left: 8px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.part-move-up-btn, .part-move-down-btn {
+  padding: 6px 10px !important;
+  font-size: 11px !important;
+  background: #6c757d !important;
+  min-width: 40px !important;
+  box-shadow: 0 2px 6px rgba(108, 117, 125, 0.3) !important;
+}
+
+.part-move-up-btn:hover, .part-move-down-btn:hover {
+  background: #545b62 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 3px 8px rgba(108, 117, 125, 0.4) !important;
+}
+
+.part-delete-btn {
+  background: #dc3545 !important;
+  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3) !important;
+}
+
+.part-delete-btn:hover {
+  background: #c82333 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4) !important;
+}
+
+.empty-part {
+  text-align: center;
+  color: #999;
+  padding: 60px 20px;
+  border: 2px dashed #ddd;
+  border-radius: 12px;
+  background: #f8f9fa;
+}
+
+.hero-section {
+  text-align: center;
+  padding: 80px 20px;
+  color: white;
+  border-radius: 12px;
+  margin-bottom: 0;
+}
+
+.hero-section h1 {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.hero-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 30px;
+  opacity: 0.9;
+}
+
+.hero-section p {
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+.hero-section .cta-button {
+  display: inline-block;
+  background: <%= accentColor %>;
+  color: white;
+  padding: 15px 30px;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.hero-section .cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.about-section {
+  padding: 60px 20px;
+  background: white;
+  border-radius: 12px;
+}
+
+.about-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.about-section p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #666;
+  max-width: 800px;
+  margin: 0 auto 30px;
+  text-align: center;
+}
+
+.about-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.about-feature {
+  text-align: center;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.about-feature h3 {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.about-feature p {
+  color: #666;
+  line-height: 1.6;
+}
+
+.features-section {
+  padding: 60px 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+
+.features-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 50px;
+  color: #333;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.feature-item {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.feature-item:hover {
+  transform: translateY(-5px);
+}
+
+.feature-item .icon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.feature-item h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.feature-item p {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.feature-link {
+  color: <%= accentColor %>;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.feature-link:hover {
+  color: #0056b3;
+}
+
+.pricing-section {
+  padding: 60px 20px;
+  background: white;
+  border-radius: 12px;
+}
+
+.pricing-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 50px;
+  color: #333;
+}
+
+.pricing-grid {
+  display: grid;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.pricing-grid-1 {
+  grid-template-columns: 1fr;
+  max-width: 400px;
+}
+
+.pricing-grid-2 {
+  grid-template-columns: repeat(2, 300px);
+  justify-content: center;
+}
+
+.pricing-grid-3 {
+  grid-template-columns: repeat(3, 300px);
+  justify-content: center;
+}
+
+.pricing-grid-4 {
+  grid-template-columns: repeat(4, 300px);
+  justify-content: center;
+}
+
+.pricing-card {
+  background: white;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.pricing-card:hover {
+  transform: translateY(-5px);
+  border-color: <%= accentColor %>;
+}
+
+.pricing-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.price {
+  font-size: 3rem;
+  font-weight: bold;
+  color: <%= accentColor %>;
+  margin-bottom: 30px;
+}
+
+.pricing-card ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 30px;
+}
+
+.pricing-card li {
+  padding: 10px 0;
+  border-bottom: 1px solid #e9ecef;
+  color: #666;
+}
+
+.pricing-card li:last-child {
+  border-bottom: none;
+}
+
+.contact-section {
+  padding: 60px 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+
+.contact-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.contact-section p {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 40px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.contact-info {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.testimonial-section {
+  padding: 60px 20px;
+  background: white;
+}
+
+.testimonial-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 50px;
+  color: #333;
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.testimonial-card {
+  background: #f8f9fa;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  border-left: 4px solid <%= accentColor %>;
+}
+
+.testimonial-card p {
+  font-size: 1.1rem;
+  font-style: italic;
+  color: #666;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.author {
+  font-weight: bold;
+  color: #333;
+}
+
+.gallery-section {
+  padding: 60px 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+
+.gallery-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.gallery-section p {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 40px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.gallery-item {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.gallery-item:hover {
+  transform: scale(1.05);
+}
+
+.blog-section {
+  padding: 60px 20px;
+  background: white;
+  border-radius: 12px;
+}
+
+.blog-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.blog-section p {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 40px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.blog-posts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.blog-post {
+  background: #f8f9fa;
+  padding: 30px;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+.blog-post:hover {
+  transform: translateY(-5px);
+}
+
+.blog-post h3 {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.blog-date {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+}
+
+.blog-post p {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.blog-link {
+  color: <%= accentColor %>;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.blog-link:hover {
+  color: #0056b3;
+}
+
+.faq-section {
+  padding: 60px 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+
+.faq-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 50px;
+  color: #333;
+}
+
+.faq-list {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  background: white;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.faq-question {
+  padding: 20px;
+  background: #f8f9fa;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.3s ease;
+}
+
+.faq-question:hover {
+  background: #e9ecef;
+}
+
+.faq-question h3 {
+  margin: 0;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.faq-toggle {
+  font-size: 1.5rem;
+  color: #666;
+  transition: transform 0.3s ease;
+}
+
+.faq-answer {
+  padding: 20px;
+  background: white;
+}
+
+.faq-answer p {
+  margin: 0;
+  color: #666;
+  line-height: 1.6;
+}
+
+.footer-section {
+  padding: 40px 20px;
+  text-align: center;
+  margin-top: 40px;
+  position: relative;
+  pointer-events: none;
+  transition: none !important;
+  transform: none !important;
+}
+
+.footer-content {
+  pointer-events: auto;
+  transition: none !important;
+  transform: none !important;
+}
+
+.footer-content p {
+  margin: 0;
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.footer-hidden-indicator {
+  padding: 30px 20px;
+  text-align: center;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 2px dashed #6c757d;
+  border-radius: 12px;
+  margin-top: 40px;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.footer-hidden-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.footer-hidden-icon {
+  font-size: 2rem;
+  opacity: 0.6;
+  margin-bottom: 10px;
+}
+
+.footer-hidden-content p {
+  margin: 0;
+  color: #6c757d;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.show-footer-btn {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+}
+
+.show-footer-btn:hover {
+  background: linear-gradient(135deg, #0056b3 0%, #004085 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+}
+
+@media (max-width: 768px) {
+  .pricing-grid-2,
+  .pricing-grid-3,
+  .pricing-grid-4 {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+  }
+  
+  .hero-section h1 {
+    font-size: 2.5rem;
+  }
+  
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .contact-info {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+  
+  .blog-posts {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
 </head>
 <body style="background:<%= bgColor %>; color:<%= textColor %>;">
-<header class="header">
-<div class="header-container">
-<div class="header-content">
-<ul class="header-content-list">
-<% if (anchors && anchors.length > 0) { %>
-<% anchors.forEach(function(anchor){ %>
-<li class="header-content-list-item"><a class="header-content-list-item-link" href="#<%= anchor.id %>"><%= anchor.label %></a></li>
-<% }); %>
-<% } %>
-<% if (buttons && buttons.length > 0) { %>
-<% buttons.forEach(function(btn){ %>
-<li class="header-content-list-button"><a class="header-content-list-item-button-link" href="<%= btn.url %>"><%= btn.label %></a></li>
-<% }); %>
-<% } %>
-</ul>
-</div>
-</div>
-</header>
 
-<div class="mainvisual">
-<div class="mainvisual-image">
-<% if (mainvisualFile) { %>
-<img src="<%= mainvisualFile %>" alt="mainvisual">
-<% } %>
-</div>
-<div class="mainvisual-content">
-<h1><%= title %></h1>
-<p><%= description %></p>
-<a href="#" class="cta" style="background:<%= accentColor %>"><%= cta %></a>
+<div class="preview-container">
+<% if (parts && parts.length > 0) { %>
+<% const nonFooterParts = parts.filter(part => part.type !== 'footer'); %>
+<% if (nonFooterParts.length > 0) { %>
+<% parts.forEach(function(part, index){ %>
+<% if (part.type !== 'footer') { %>
+<div class="part" data-part-id="<%= part.id || index %>">
+<div class="part-controls">
+<button class="part-edit-btn" onclick="editPart('<%= part.id || index %>')">編集</button>
+<button class="part-delete-btn" onclick="deletePartFromPreview('<%= part.id || index %>')">削除</button>
+<div class="part-move-controls">
+<button class="part-move-up-btn" onclick="movePartUp('<%= part.id || index %>')" title="上に移動">↑</button>
+<button class="part-move-down-btn" onclick="movePartDown('<%= part.id || index %>')" title="下に移動">↓</button>
 </div>
 </div>
 
-<div class="container">
-<% if (anchors && anchors.length > 0) { %>
-<% anchors.forEach(function(anchor){ %>
-<h2 id="<%= anchor.id %>"><%= anchor.label %></h2>
-<p>ここに「<%= anchor.label %>」に関するコンテンツを入れます。</p>
-<% }); %>
-<% } %>
+<% if (part.type === 'hero') { %>
+<div class="hero-section" style="background: linear-gradient(135deg, <%= part.backgroundColor || '#667eea' %> 0%, <%= part.backgroundColor || '#764ba2' %> 100%);">
+  <% if (part.image) { %>
+  <img src="<%= part.image %>" alt="ヒーロー画像" style="max-width: 100%; height: auto; margin-bottom: 30px;">
+  <% } %>
+  <h1><%= part.title %></h1>
+  <h2><%= part.subtitle %></h2>
+  <p><%= part.description %></p>
+  <a href="<%= part.buttonLink || '#' %>" class="cta-button"><%= part.buttonText %></a>
 </div>
+<% } %>
+
+<% if (part.type === 'about') { %>
+<div class="about-section">
+  <h2><%= part.title %></h2>
+  <p><%= part.description %></p>
+  <% if (part.image) { %>
+  <img src="<%= part.image %>" alt="About画像" style="max-width: 100%; height: auto; margin: 20px 0;">
+  <% } %>
+  <% if (part.features) { %>
+  <div class="about-features">
+    <% part.features.forEach(function(feature){ %>
+    <div class="about-feature">
+      <h3><%= feature.title %></h3>
+      <p><%= feature.description %></p>
+    </div>
+    <% }); %>
+  </div>
+  <% } %>
+</div>
+<% } %>
+
+<% if (part.type === 'features') { %>
+<div class="features-section">
+  <h2><%= part.title %></h2>
+  <div class="features-grid">
+    <% if (part.items) { %>
+    <% part.items.forEach(function(item){ %>
+    <div class="feature-item">
+      <div class="icon"><%= item.icon %></div>
+      <h3><%= item.title %></h3>
+      <p><%= item.description %></p>
+      <% if (item.link && item.link !== '#') { %>
+      <a href="<%= item.link %>" class="feature-link">詳細を見る</a>
+      <% } %>
+    </div>
+    <% }); %>
+    <% } %>
+  </div>
+</div>
+<% } %>
+
+<% if (part.type === 'pricing') { %>
+<div class="pricing-section">
+  <h2><%= part.title %></h2>
+  <div class="pricing-grid pricing-grid-<%= part.plans ? part.plans.length : 1 %>">
+    <% if (part.plans) { %>
+    <% part.plans.forEach(function(plan){ %>
+    <div class="pricing-card">
+      <h3><%= plan.name %></h3>
+      <div class="price"><%= plan.price %></div>
+      <ul>
+        <% if (plan.features) { %>
+        <% plan.features.forEach(function(feature){ %>
+        <li><%= feature %></li>
+        <% }); %>
+        <% } %>
+      </ul>
+      <a href="<%= plan.link || '#' %>" class="cta-button">選択する</a>
+    </div>
+    <% }); %>
+    <% } %>
+  </div>
+</div>
+<% } %>
+
+<% if (part.type === 'contact') { %>
+<div class="contact-section">
+  <h2><%= part.title %></h2>
+  <p><%= part.description %></p>
+  <div class="contact-info">
+    <div class="contact-item">
+      <span class="contact-icon">Email:</span>
+      <a href="<%= part.emailLink || 'mailto:' + part.email %>"><%= part.email %></a>
+    </div>
+    <div class="contact-item">
+      <span class="contact-icon">Tel:</span>
+      <a href="<%= part.phoneLink || 'tel:' + part.phone %>"><%= part.phone %></a>
+    </div>
+  </div>
+</div>
+<% } %>
+
+<% if (part.type === 'testimonial') { %>
+<div class="testimonial-section">
+  <h2><%= part.title %></h2>
+  <div class="testimonials-grid">
+    <% if (part.testimonials) { %>
+    <% part.testimonials.forEach(function(testimonial){ %>
+    <div class="testimonial-card">
+      <p>"<%= testimonial.comment %>"</p>
+      <div class="author">- <%= testimonial.name %></div>
+    </div>
+    <% }); %>
+    <% } %>
+  </div>
+</div>
+<% } %>
+
+<% if (part.type === 'gallery') { %>
+<div class="gallery-section">
+  <h2><%= part.title %></h2>
+  <p><%= part.description %></p>
+  <% if (part.images && part.images.length > 0) { %>
+  <div class="gallery-grid">
+    <% part.images.forEach(function(image){ %>
+    <div class="gallery-item">
+      <img src="<%= image %>" alt="ギャラリー画像" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
+    </div>
+    <% }); %>
+  </div>
+  <% } else { %>
+  <p style="text-align: center; color: #999; padding: 40px;">画像を追加してください</p>
+  <% } %>
+</div>
+<% } %>
+
+<% if (part.type === 'blog') { %>
+<div class="blog-section">
+  <h2><%= part.title %></h2>
+  <p><%= part.description %></p>
+  <% if (part.posts && part.posts.length > 0) { %>
+  <div class="blog-posts">
+    <% part.posts.forEach(function(post){ %>
+    <div class="blog-post">
+      <h3><%= post.title %></h3>
+      <p class="blog-date"><%= post.date %></p>
+      <p><%= post.excerpt %></p>
+      <a href="<%= post.link %>" class="blog-link">続きを読む</a>
+    </div>
+    <% }); %>
+  </div>
+  <% } else { %>
+  <p style="text-align: center; color: #999; padding: 40px;">ブログ記事を追加してください</p>
+  <% } %>
+</div>
+<% } %>
+
+<% if (part.type === 'faq') { %>
+<div class="faq-section">
+  <h2><%= part.title %></h2>
+  <% if (part.faqs && part.faqs.length > 0) { %>
+  <div class="faq-list">
+    <% part.faqs.forEach(function(faq, index){ %>
+    <div class="faq-item">
+      <div class="faq-question">
+        <h3><%= faq.question %></h3>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">
+        <p><%= faq.answer %></p>
+      </div>
+    </div>
+    <% }); %>
+  </div>
+  <% } else { %>
+  <p style="text-align: center; color: #999; padding: 40px;">FAQを追加してください</p>
+  <% } %>
+</div>
+<% } %>
+
+</div>
+<% } %>
+<% }); %>
+<% } else { %>
+<div class="part empty-part" data-part-id="">
+  <p style="text-align: center; color: #999; padding: 60px 20px;">左側のパーツパレットからパーツをクリックして配置してください</p>
+</div>
+<% } %>
+<% } else { %>
+<div class="part empty-part" data-part-id="">
+  <p style="text-align: center; color: #999; padding: 60px 20px;">左側のパーツパレットからパーツをクリックして配置してください</p>
+</div>
+<% } %>
+
+<!-- フッター（独立した要素） -->
+<% 
+  let footerPart = null;
+  if (parts && parts.some(p => p.type === 'footer')) {
+    footerPart = parts.find(p => p.type === 'footer');
+  } else {
+    // フッターが存在しない場合はデフォルトのフッターを作成
+    footerPart = {
+      id: 'default-footer',
+      type: 'footer',
+      companyName: 'Your Company',
+      backgroundColor: '#2c3e50',
+      textColor: '#ffffff',
+      visible: true
+    };
+  }
+  
+  // フッターの表示状態を確認
+  const isFooterVisible = footerPart && footerPart.visible !== false;
+%>
+<% if (isFooterVisible) { %>
+<div class="footer-section" style="background-color: <%= footerPart.backgroundColor || '#2c3e50' %>; color: <%= footerPart.textColor || '#ffffff' %>;">
+  <div class="footer-content">
+    <p>&copy; <%= new Date().getFullYear() %> <%= footerPart.companyName %>. All rights reserved.</p>
+  </div>
+
+  <div class="footer-controls">
+    <button class="part-edit-btn" data-part-id="<%= footerPart.id || 'default-footer' %>">編集</button>
+    <button class="toggle-footer-btn" data-part-id="<%= footerPart.id || 'default-footer' %>">非表示</button>
+  </div>
+</div>
+<% } else { %>
+<div class="footer-hidden-indicator">
+  <div class="footer-hidden-content">
+    <div class="footer-hidden-icon">●</div>
+    <p>フッターは非表示になっています</p>
+    <button class="show-footer-btn" data-part-id="<%= footerPart.id || 'default-footer' %>">表示する</button>
+  </div>
+  
+  <div class="footer-controls">
+    <button class="part-edit-btn" data-part-id="<%= footerPart.id || 'default-footer' %>">編集</button>
+    <button class="toggle-footer-btn" data-part-id="<%= footerPart.id || 'default-footer' %>">表示</button>
+  </div>
+</div>
+<% } %>
+
+</div>
+
+<script>
+// フッターのボタン機能を有効にする
+function editPartFromParent(partId) {
+  console.log('editPartFromParent called with partId:', partId);
+  try {
+    if (window.parent && window.parent.editPartFromParent) {
+      console.log('Calling parent editPartFromParent');
+      window.parent.editPartFromParent(partId);
+    } else if (window.parent && window.parent.postMessage) {
+      console.log('Using postMessage to communicate with parent');
+      window.parent.postMessage({
+        type: 'editPartFromParent',
+        partId: partId
+      }, '*');
+    } else {
+      console.error('No communication method available');
+    }
+  } catch (error) {
+    console.error('Error calling editPartFromParent:', error);
+  }
+}
+
+function toggleFooterVisibility(partId) {
+  console.log('toggleFooterVisibility called with partId:', partId);
+  try {
+    // まずpostMessageを試す（より確実）
+    if (window.parent && window.parent.postMessage) {
+      console.log('Using postMessage to communicate with parent');
+      window.parent.postMessage({
+        type: 'toggleFooterVisibility',
+        partId: partId
+      }, '*');
+    } else if (window.parent && window.parent.toggleFooterVisibility) {
+      console.log('Calling parent toggleFooterVisibility directly');
+      window.parent.toggleFooterVisibility(partId);
+    } else {
+      console.error('No communication method available');
+    }
+  } catch (error) {
+    console.error('Error calling toggleFooterVisibility:', error);
+  }
+}
+
+// イベントリスナーを設定する関数
+function setupButtonEventListeners() {
+  console.log('Setting up event listeners for footer buttons');
+  
+  // 編集ボタンのイベントリスナー
+  document.querySelectorAll('.part-edit-btn').forEach(button => {
+    button.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const partId = this.dataset.partId;
+      console.log('Edit button clicked for partId:', partId);
+      editPartFromParent(partId);
+    });
+  });
+  
+  // 表示/非表示ボタンのイベントリスナー
+  document.querySelectorAll('.toggle-footer-btn, .show-footer-btn').forEach(button => {
+    console.log('Setting up event listener for button:', button.className, button.dataset.partId);
+    button.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const partId = this.dataset.partId;
+      console.log('Toggle button clicked for partId:', partId, 'Button class:', this.className);
+      toggleFooterVisibility(partId);
+    });
+  });
+}
+
+// 複数のタイミングでイベントリスナーを設定
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', setupButtonEventListeners);
+} else {
+  setupButtonEventListeners();
+}
+
+// 少し遅延してからも設定（確実性のため）
+setTimeout(setupButtonEventListeners, 100);
+
+// さらに遅延して設定（表示ボタン用）
+setTimeout(() => {
+  console.log('Additional setup for show buttons');
+  document.querySelectorAll('.show-footer-btn').forEach(button => {
+    console.log('Additional setup for show button:', button.className, button.dataset.partId);
+    // 既存のイベントリスナーを削除してから追加
+    button.replaceWith(button.cloneNode(true));
+  });
+  setupButtonEventListeners();
+}, 500);
+
+// パーツの編集機能
+function editPart(partId) {
+  if (window.parent && window.parent.editPart) {
+    window.parent.editPart(partId);
+  }
+}
+
+// パーツの削除機能
+function deletePartFromPreview(partId) {
+  if (window.parent && window.parent.deletePartFromPreview) {
+    window.parent.deletePartFromPreview(partId);
+  }
+}
+
+// パーツの移動機能
+function movePartUp(partId) {
+  if (window.parent && window.parent.movePartUp) {
+    window.parent.movePartUp(partId);
+  }
+}
+
+function movePartDown(partId) {
+  if (window.parent && window.parent.movePartDown) {
+    window.parent.movePartDown(partId);
+  }
+}
+</script>
+
 </body>
 </html>

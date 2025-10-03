@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>ランディングページ</title>
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/export.css">
+</head>
+<body style="background:<%= bgColor %>; color:<%= textColor %>;">
+
+<div class="preview-container">
+<% if (parts && parts.length > 0) { %>
+<% parts.forEach(function(part, index){ %>
+<div class="part" data-part-id="<%= part.id %>">
+  <% if (part.type === 'hero') { %>
+  <section class="hero-section" style="background: <%= part.backgroundColor || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' %>;">
+    <h1><%= part.title %></h1>
+    <h2><%= part.subtitle %></h2>
+    <p><%= part.description %></p>
+    <% if (part.buttonText) { %>
+    <a href="<%= part.buttonLink || '#' %>" class="cta-button"><%= part.buttonText %></a>
+    <% } %>
+    <% if (part.mainvisual) { %>
+    <img src="<%= part.mainvisual %>" alt="メインビジュアル" class="mainvisual">
+    <% } %>
+  </section>
+  <% } else if (part.type === 'features') { %>
+  <section class="features-section">
+    <h2><%= part.title %></h2>
+    <div class="features-grid">
+      <% part.items.forEach(function(item){ %>
+      <div class="feature-item">
+        <h3><%= item.title %></h3>
+        <p><%= item.description %></p>
+        <% if (item.link) { %>
+        <a href="<%= item.link %>" class="feature-link">詳細を見る</a>
+        <% } %>
+      </div>
+      <% }); %>
+    </div>
+  </section>
+  <% } else if (part.type === 'pricing') { %>
+  <section class="pricing-section">
+    <h2><%= part.title %></h2>
+    <div class="pricing-grid pricing-grid-<%= part.plans.length %>">
+      <% part.plans.forEach(function(plan, planIndex){ %>
+      <div class="pricing-plan <%= plan.featured ? 'featured' : '' %>">
+        <h3><%= plan.name %></h3>
+        <div class="price">¥<%= plan.price %><span>/月</span></div>
+        <ul>
+          <% plan.features.forEach(function(feature){ %>
+          <li><%= feature %></li>
+          <% }); %>
+        </ul>
+        <% if (plan.link) { %>
+        <a href="<%= plan.link %>" class="cta-button">選択する</a>
+        <% } %>
+      </div>
+      <% }); %>
+    </div>
+  </section>
+  <% } else if (part.type === 'contact') { %>
+  <section class="contact-section">
+    <h2><%= part.title %></h2>
+    <div class="contact-content">
+      <p><%= part.description %></p>
+      <div class="contact-info">
+        <% if (part.email) { %>
+        <div class="contact-item">
+          <span>📧</span>
+          <a href="mailto:<%= part.email %>"><%= part.email %></a>
+        </div>
+        <% } %>
+        <% if (part.phone) { %>
+        <div class="contact-item">
+          <span>📞</span>
+          <a href="tel:<%= part.phone %>"><%= part.phone %></a>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </section>
+  <% } else if (part.type === 'testimonial') { %>
+  <section class="testimonial-section">
+    <h2><%= part.title %></h2>
+    <div class="testimonials-grid">
+      <% part.testimonials.forEach(function(testimonial){ %>
+      <div class="testimonial-item">
+        <blockquote>"<%= testimonial.quote %>"</blockquote>
+        <div class="author">- <%= testimonial.author %></div>
+      </div>
+      <% }); %>
+    </div>
+  </section>
+  <% } else if (part.type === 'about') { %>
+  <section class="about-section">
+    <h2><%= part.title %></h2>
+    <div class="about-content">
+      <p><%= part.description %></p>
+    </div>
+  </section>
+  <% } else if (part.type === 'gallery') { %>
+  <section class="gallery-section">
+    <h2><%= part.title %></h2>
+    <div class="gallery-grid">
+      <% part.images.forEach(function(image){ %>
+      <div class="gallery-item">
+        <img src="<%= image %>" alt="ギャラリー画像">
+      </div>
+      <% }); %>
+    </div>
+  </section>
+  <% } else if (part.type === 'faq') { %>
+  <section class="faq-section">
+    <h2><%= part.title %></h2>
+    <div class="faq-list">
+      <% part.faqs.forEach(function(faq){ %>
+      <div class="faq-item">
+        <button class="faq-question"><%= faq.question %></button>
+        <div class="faq-answer"><%= faq.answer %></div>
+      </div>
+      <% }); %>
+    </div>
+  </section>
+  <% } %>
+</div>
+<% }); %>
+<% } else { %>
+<div class="empty-part">
+  <h2>ランディングページ</h2>
+  <p>パーツを追加してランディングページを作成してください</p>
+</div>
+<% } %>
+</div>
+
+<script src="js/export.js"></script>
+</body>
+</html>
