@@ -218,6 +218,9 @@ app.post("/export-zip", upload.fields([{ name: "logo" }, { name: "mainvisual" }]
   }
 });
 
-app.listen(3000, () => {
-  console.log("✅ 起動しました → http://localhost:3000");
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`✅ 起動しました → http://localhost:${PORT}`);
+  console.log(`🌐 本番環境では https://your-domain.com でアクセス可能です`);
 });
