@@ -1278,7 +1278,7 @@ async function openPreviewInNewTab() {
   }
 }
 
-// HTMLをダウンロード
+// HTMLをダウンロード（ZIPファイルとして）
 async function downloadHtml() {
   try {
     const formData = new FormData(form);
@@ -1295,30 +1295,29 @@ async function downloadHtml() {
     
     formData.append('parts', JSON.stringify(partsToSend));
     
-    const res = await fetch("/export-preview", {
+    const res = await fetch("/export-zip", {
       method: "POST",
       body: formData
     });
     
     if (!res.ok) {
       const errorText = await res.text();
-      throw new Error('HTML生成に失敗しました: ' + errorText);
+      throw new Error('ZIP生成に失敗しました: ' + errorText);
     }
     
-    const html = await res.text();
-    const blob = new Blob([html], { type: 'text/html' });
+    const blob = await res.blob();
     const url = URL.createObjectURL(blob);
     
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'landing-page.html';
+    a.download = 'landing-page.zip';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   } catch (error) {
     console.error('ダウンロードエラー:', error);
-    alert('HTMLのダウンロードに失敗しました: ' + error.message);
+    alert('ZIPファイルのダウンロードに失敗しました: ' + error.message);
   }
 }
 

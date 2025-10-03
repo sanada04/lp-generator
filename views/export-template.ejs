@@ -3,679 +3,136 @@
 <head>
 <meta charset="UTF-8">
 <title>ランディングページ</title>
-<link rel="stylesheet" href="/css/base.css">
-<style>
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow-x: hidden;
-}
-
-.preview-container {
-  width: 100%;
-  min-height: 100vh;
-  padding: 20px;
-  padding-bottom: 20px;
-}
-
-.part {
-  margin-bottom: 0;
-  padding: 0;
-  border: none;
-  position: relative;
-  background: transparent;
-}
-
-.hero-section {
-  text-align: center;
-  padding: 60px 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-}
-
-.hero-section h1 {
-  font-size: 3rem;
-  margin-bottom: 20px;
-}
-
-.hero-section h2 {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-  opacity: 0.9;
-}
-
-.hero-section p {
-  font-size: 1.2rem;
-  margin-bottom: 30px;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.hero-section .cta-button {
-  display: inline-block;
-  background: <%= accentColor %>;
-  color: white;
-  padding: 15px 30px;
-  text-decoration: none;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  font-weight: bold;
-}
-
-.features-section {
-  padding: 60px 20px;
-  background: #f8f9fa;
-}
-
-.features-section h2 {
-  text-align: center;
-  font-size: 2.5rem;
-  margin-bottom: 50px;
-  color: #333;
-}
-
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.feature-item {
-  text-align: center;
-  padding: 30px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-
-.feature-item .icon {
-  font-size: 3rem;
-  margin-bottom: 20px;
-}
-
-.feature-item h3 {
-  font-size: 1.5rem;
-  margin-bottom: 15px;
-  color: #333;
-}
-
-.feature-item p {
-  color: #666;
-  line-height: 1.6;
-}
-
-.pricing-section {
-  padding: 60px 20px;
-  background: white;
-}
-
-.pricing-section h2 {
-  text-align: center;
-  font-size: 2.5rem;
-  margin-bottom: 50px;
-  color: #333;
-}
-
-.pricing-grid {
-  display: grid;
-  gap: 16px;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-/* 動的カラム数 */
-.pricing-grid-1 {
-  grid-template-columns: 300px;
-  max-width: 300px;
-}
-
-.pricing-grid-2 {
-  grid-template-columns: repeat(2, 300px);
-  max-width: 620px;
-}
-
-.pricing-grid-3 {
-  grid-template-columns: repeat(3, 300px);
-  max-width: 940px;
-}
-
-.pricing-grid-4 {
-  grid-template-columns: repeat(4, 300px);
-  max-width: 1260px;
-}
-
-/* レスポンシブ対応 */
-@media (max-width: 1260px) {
-  .pricing-grid-4 {
-    grid-template-columns: repeat(2, 300px);
-    max-width: 620px;
-  }
-}
-
-@media (max-width: 940px) {
-  .pricing-grid-3 {
-    grid-template-columns: repeat(2, 300px);
-    max-width: 620px;
-  }
-}
-
-@media (max-width: 640px) {
-  .pricing-grid-2,
-  .pricing-grid-3,
-  .pricing-grid-4 {
-    grid-template-columns: 300px;
-    max-width: 300px;
-  }
-}
-
-/* About セクション */
-.about-section {
-  text-align: center;
-  padding: 60px 20px;
-}
-
-.about-features {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 30px;
-  margin-top: 40px;
-}
-
-.about-feature {
-  padding: 20px;
-  background: #f8f9fa;
-  border-radius: 12px;
-}
-
-.about-feature h3 {
-  color: #007bff;
-  margin-bottom: 15px;
-}
-
-/* Gallery セクション */
-.gallery-section {
-  padding: 60px 20px;
-  text-align: center;
-}
-
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  margin-top: 30px;
-}
-
-.gallery-item {
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease;
-}
-
-.gallery-item:hover {
-  transform: scale(1.05);
-}
-
-/* Blog セクション */
-.blog-section {
-  padding: 60px 20px;
-}
-
-.blog-posts {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-  margin-top: 30px;
-}
-
-.blog-post {
-  background: #f8f9fa;
-  padding: 30px;
-  border-radius: 12px;
-  border-left: 4px solid #007bff;
-}
-
-.blog-date {
-  color: #666;
-  font-size: 14px;
-  margin: 10px 0;
-}
-
-.blog-link {
-  color: #007bff;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.blog-link:hover {
-  text-decoration: underline;
-}
-
-/* FAQ セクション */
-.faq-section {
-  padding: 60px 20px;
-}
-
-.faq-list {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.faq-item {
-  border: 1px solid #e9ecef;
-  border-radius: 8px;
-  margin-bottom: 15px;
-  overflow: hidden;
-}
-
-.faq-question {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  background: #f8f9fa;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.faq-question:hover {
-  background: #e9ecef;
-}
-
-.faq-question h3 {
-  margin: 0;
-  font-size: 16px;
-}
-
-.faq-toggle {
-  font-size: 20px;
-  font-weight: bold;
-  color: #007bff;
-}
-
-.faq-answer {
-  padding: 0 20px;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease, padding 0.3s ease;
-}
-
-.faq-item.active .faq-answer {
-  padding: 20px;
-  max-height: 200px;
-}
-
-/* Footer セクション */
-.footer-section {
-  padding: 40px 20px;
-  text-align: center;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.footer-content {
-  margin: 0;
-  padding: 0;
-}
-
-.footer-content p {
-  margin: 0;
-  font-size: 14px;
-  opacity: 0.8;
-}
-
-.pricing-card {
-  background: #f8f9fa;
-  border-radius: 12px;
-  padding: 40px 30px;
-  text-align: center;
-  border: 2px solid #e9ecef;
-  transition: transform 0.3s;
-}
-
-.pricing-card:hover {
-  transform: translateY(-5px);
-  border-color: <%= accentColor %>;
-}
-
-.pricing-card h3 {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-.pricing-card .price {
-  font-size: 3rem;
-  font-weight: bold;
-  color: <%= accentColor %>;
-  margin-bottom: 30px;
-}
-
-.pricing-card ul {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 30px;
-}
-
-.pricing-card li {
-  padding: 10px 0;
-  border-bottom: 1px solid #e9ecef;
-}
-
-.contact-section {
-  padding: 60px 20px;
-  background: #f8f9fa;
-  text-align: center;
-}
-
-.contact-section h2 {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-.contact-section p {
-  font-size: 1.2rem;
-  margin-bottom: 30px;
-  color: #666;
-}
-
-.contact-info {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  flex-wrap: wrap;
-}
-
-.contact-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 1.1rem;
-  color: #333;
-}
-
-.testimonial-section {
-  padding: 60px 20px;
-  background: white;
-}
-
-.testimonial-section h2 {
-  text-align: center;
-  font-size: 2.5rem;
-  margin-bottom: 50px;
-  color: #333;
-}
-
-.testimonials-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.testimonial-card {
-  background: #f8f9fa;
-  padding: 30px;
-  border-radius: 12px;
-  border-left: 4px solid <%= accentColor %>;
-}
-
-.testimonial-card p {
-  font-style: italic;
-  margin-bottom: 20px;
-  color: #333;
-  line-height: 1.6;
-}
-
-.testimonial-card .author {
-  font-weight: bold;
-  color: #666;
-}
-
-/* リンクスタイル */
-.feature-link {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 8px 16px;
-  background: #007bff;
-  color: white;
-  text-decoration: none;
-  border-radius: 4px;
-  font-size: 14px;
-  transition: all 0.2s;
-}
-
-.feature-link:hover {
-  background: #0056b3;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
-}
-
-.contact-item a {
-  color: #007bff;
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.contact-item a:hover {
-  color: #0056b3;
-  text-decoration: underline;
-}
-</style>
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/export.css">
 </head>
 <body style="background:<%= bgColor %>; color:<%= textColor %>;">
 
 <div class="preview-container">
 <% if (parts && parts.length > 0) { %>
 <% parts.forEach(function(part, index){ %>
-<div class="part" data-part-id="<%= part.id || index %>">
-
-<% if (part.type === 'hero') { %>
-<div class="hero-section" style="background: linear-gradient(135deg, <%= part.backgroundColor || '#667eea' %> 0%, <%= part.backgroundColor || '#764ba2' %> 100%);">
-  <% if (part.image) { %>
-  <img src="<%= part.image %>" alt="ヒーロー画像" style="max-width: 100%; height: auto; margin-bottom: 30px;">
-  <% } %>
-  <h1><%= part.title %></h1>
-  <h2><%= part.subtitle %></h2>
-  <p><%= part.description %></p>
-  <a href="<%= part.buttonLink || '#' %>" class="cta-button"><%= part.buttonText %></a>
-</div>
-<% } %>
-
-<% if (part.type === 'about') { %>
-<div class="about-section">
-  <h2><%= part.title %></h2>
-  <p><%= part.description %></p>
-  <% if (part.image) { %>
-  <img src="<%= part.image %>" alt="About画像" style="max-width: 100%; height: auto; margin: 20px 0;">
-  <% } %>
-  <% if (part.features) { %>
-  <div class="about-features">
-    <% part.features.forEach(function(feature){ %>
-    <div class="about-feature">
-      <h3><%= feature.title %></h3>
-      <p><%= feature.description %></p>
-    </div>
-    <% }); %>
-  </div>
-  <% } %>
-</div>
-<% } %>
-
-<% if (part.type === 'features') { %>
-<div class="features-section">
-  <h2><%= part.title %></h2>
-  <div class="features-grid">
-    <% if (part.items) { %>
-    <% part.items.forEach(function(item){ %>
-    <div class="feature-item">
-      <div class="icon"><%= item.icon %></div>
-      <h3><%= item.title %></h3>
-      <p><%= item.description %></p>
-      <% if (item.link && item.link !== '#') { %>
-      <a href="<%= item.link %>" class="feature-link">詳細を見る</a>
-      <% } %>
-    </div>
-    <% }); %>
+<div class="part" data-part-id="<%= part.id %>">
+  <% if (part.type === 'hero') { %>
+  <section class="hero-section" style="background: <%= part.backgroundColor || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' %>;">
+    <h1><%= part.title %></h1>
+    <h2><%= part.subtitle %></h2>
+    <p><%= part.description %></p>
+    <% if (part.buttonText) { %>
+    <a href="<%= part.buttonLink || '#' %>" class="cta-button"><%= part.buttonText %></a>
     <% } %>
-  </div>
-</div>
-<% } %>
-
-<% if (part.type === 'pricing') { %>
-<div class="pricing-section">
-  <h2><%= part.title %></h2>
-  <div class="pricing-grid pricing-grid-<%= part.plans ? part.plans.length : 1 %>">
-    <% if (part.plans) { %>
-    <% part.plans.forEach(function(plan){ %>
-    <div class="pricing-card">
-      <h3><%= plan.name %></h3>
-      <div class="price"><%= plan.price %></div>
-      <ul>
-        <% if (plan.features) { %>
-        <% plan.features.forEach(function(feature){ %>
-        <li><%= feature %></li>
-        <% }); %>
+    <% if (part.mainvisual) { %>
+    <img src="<%= part.mainvisual %>" alt="メインビジュアル" class="mainvisual">
+    <% } %>
+  </section>
+  <% } else if (part.type === 'features') { %>
+  <section class="features-section">
+    <h2><%= part.title %></h2>
+    <div class="features-grid">
+      <% part.items.forEach(function(item){ %>
+      <div class="feature-item">
+        <h3><%= item.title %></h3>
+        <p><%= item.description %></p>
+        <% if (item.link) { %>
+        <a href="<%= item.link %>" class="feature-link">詳細を見る</a>
         <% } %>
-      </ul>
-      <a href="<%= plan.link || '#' %>" class="cta-button">選択する</a>
-    </div>
-    <% }); %>
-    <% } %>
-  </div>
-</div>
-<% } %>
-
-<% if (part.type === 'contact') { %>
-<div class="contact-section">
-  <h2><%= part.title %></h2>
-  <p><%= part.description %></p>
-  <div class="contact-info">
-    <div class="contact-item">
-      <span class="contact-icon">Email:</span>
-      <a href="<%= part.emailLink || 'mailto:' + part.email %>"><%= part.email %></a>
-    </div>
-    <div class="contact-item">
-      <span class="contact-icon">Tel:</span>
-      <a href="<%= part.phoneLink || 'tel:' + part.phone %>"><%= part.phone %></a>
-    </div>
-  </div>
-</div>
-<% } %>
-
-<% if (part.type === 'testimonial') { %>
-<div class="testimonial-section">
-  <h2><%= part.title %></h2>
-  <div class="testimonials-grid">
-    <% if (part.testimonials) { %>
-    <% part.testimonials.forEach(function(testimonial){ %>
-    <div class="testimonial-card">
-      <p>"<%= testimonial.comment %>"</p>
-      <div class="author">- <%= testimonial.name %></div>
-    </div>
-    <% }); %>
-    <% } %>
-  </div>
-</div>
-<% } %>
-
-<% if (part.type === 'gallery') { %>
-<div class="gallery-section">
-  <h2><%= part.title %></h2>
-  <p><%= part.description %></p>
-  <% if (part.images && part.images.length > 0) { %>
-  <div class="gallery-grid">
-    <% part.images.forEach(function(image){ %>
-    <div class="gallery-item">
-      <img src="<%= image %>" alt="ギャラリー画像" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
-    </div>
-    <% }); %>
-  </div>
-  <% } else { %>
-  <p style="text-align: center; color: #999; padding: 40px;">画像を追加してください</p>
-  <% } %>
-</div>
-<% } %>
-
-<% if (part.type === 'blog') { %>
-<div class="blog-section">
-  <h2><%= part.title %></h2>
-  <p><%= part.description %></p>
-  <% if (part.posts && part.posts.length > 0) { %>
-  <div class="blog-posts">
-    <% part.posts.forEach(function(post){ %>
-    <div class="blog-post">
-      <h3><%= post.title %></h3>
-      <p class="blog-date"><%= post.date %></p>
-      <p><%= post.excerpt %></p>
-      <a href="<%= post.link %>" class="blog-link">続きを読む</a>
-    </div>
-    <% }); %>
-  </div>
-  <% } else { %>
-  <p style="text-align: center; color: #999; padding: 40px;">ブログ記事を追加してください</p>
-  <% } %>
-</div>
-<% } %>
-
-<% if (part.type === 'faq') { %>
-<div class="faq-section">
-  <h2><%= part.title %></h2>
-  <% if (part.faqs && part.faqs.length > 0) { %>
-  <div class="faq-list">
-    <% part.faqs.forEach(function(faq, index){ %>
-    <div class="faq-item">
-      <div class="faq-question">
-        <h3><%= faq.question %></h3>
-        <span class="faq-toggle">+</span>
       </div>
-      <div class="faq-answer">
-        <p><%= faq.answer %></p>
+      <% }); %>
+    </div>
+  </section>
+  <% } else if (part.type === 'pricing') { %>
+  <section class="pricing-section">
+    <h2><%= part.title %></h2>
+    <div class="pricing-grid pricing-grid-<%= part.plans.length %>">
+      <% part.plans.forEach(function(plan, planIndex){ %>
+      <div class="pricing-plan <%= plan.featured ? 'featured' : '' %>">
+        <h3><%= plan.name %></h3>
+        <div class="price">¥<%= plan.price %><span>/月</span></div>
+        <ul>
+          <% plan.features.forEach(function(feature){ %>
+          <li><%= feature %></li>
+          <% }); %>
+        </ul>
+        <% if (plan.link) { %>
+        <a href="<%= plan.link %>" class="cta-button">選択する</a>
+        <% } %>
+      </div>
+      <% }); %>
+    </div>
+  </section>
+  <% } else if (part.type === 'contact') { %>
+  <section class="contact-section">
+    <h2><%= part.title %></h2>
+    <div class="contact-content">
+      <p><%= part.description %></p>
+      <div class="contact-info">
+        <% if (part.email) { %>
+        <div class="contact-item">
+          <span>📧</span>
+          <a href="mailto:<%= part.email %>"><%= part.email %></a>
+        </div>
+        <% } %>
+        <% if (part.phone) { %>
+        <div class="contact-item">
+          <span>📞</span>
+          <a href="tel:<%= part.phone %>"><%= part.phone %></a>
+        </div>
+        <% } %>
       </div>
     </div>
-    <% }); %>
-  </div>
-  <% } else { %>
-  <p style="text-align: center; color: #999; padding: 40px;">FAQを追加してください</p>
+  </section>
+  <% } else if (part.type === 'testimonial') { %>
+  <section class="testimonial-section">
+    <h2><%= part.title %></h2>
+    <div class="testimonials-grid">
+      <% part.testimonials.forEach(function(testimonial){ %>
+      <div class="testimonial-item">
+        <blockquote>"<%= testimonial.quote %>"</blockquote>
+        <div class="author">- <%= testimonial.author %></div>
+      </div>
+      <% }); %>
+    </div>
+  </section>
+  <% } else if (part.type === 'about') { %>
+  <section class="about-section">
+    <h2><%= part.title %></h2>
+    <div class="about-content">
+      <p><%= part.description %></p>
+    </div>
+  </section>
+  <% } else if (part.type === 'gallery') { %>
+  <section class="gallery-section">
+    <h2><%= part.title %></h2>
+    <div class="gallery-grid">
+      <% part.images.forEach(function(image){ %>
+      <div class="gallery-item">
+        <img src="<%= image %>" alt="ギャラリー画像">
+      </div>
+      <% }); %>
+    </div>
+  </section>
+  <% } else if (part.type === 'faq') { %>
+  <section class="faq-section">
+    <h2><%= part.title %></h2>
+    <div class="faq-list">
+      <% part.faqs.forEach(function(faq){ %>
+      <div class="faq-item">
+        <button class="faq-question"><%= faq.question %></button>
+        <div class="faq-answer"><%= faq.answer %></div>
+      </div>
+      <% }); %>
+    </div>
+  </section>
   <% } %>
-</div>
-<% } %>
-
-
 </div>
 <% }); %>
-
-<!-- フッター（独立した要素） -->
-<% if (parts && parts.some(p => p.type === 'footer')) { %>
-<% const footerPart = parts.find(p => p.type === 'footer'); %>
-<% if (footerPart.visible !== false) { %>
-<div class="footer-section" style="background-color: <%= footerPart.backgroundColor || '#2c3e50' %>; color: <%= footerPart.textColor || '#ffffff' %>;">
-  <div class="footer-content">
-    <p>&copy; <%= new Date().getFullYear() %> <%= footerPart.companyName %>. All rights reserved.</p>
-  </div>
-</div>
-<% } %>
-<% } %>
-
 <% } else { %>
-<div class="part">
-  <div style="text-align: center; color: #999; padding: 60px 20px;">
-    <h2>ランディングページ</h2>
-    <p>パーツを追加してランディングページを作成してください</p>
-  </div>
+<div class="empty-part">
+  <h2>ランディングページ</h2>
+  <p>パーツを追加してランディングページを作成してください</p>
 </div>
 <% } %>
 </div>
 
+<script src="js/export.js"></script>
 </body>
 </html>

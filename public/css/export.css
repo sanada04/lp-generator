@@ -1,0 +1,503 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+.preview-container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px;
+  padding-bottom: 20px;
+}
+
+.part {
+  margin-bottom: 0;
+  padding: 0;
+  border: none;
+  position: relative;
+  background: transparent;
+}
+
+.hero-section {
+  text-align: center;
+  padding: 60px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.hero-section h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.hero-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  opacity: 0.9;
+}
+
+.hero-section p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  opacity: 0.8;
+}
+
+.hero-section .cta-button {
+  display: inline-block;
+  padding: 15px 30px;
+  background: #ff6b6b;
+  color: white;
+  text-decoration: none;
+  border-radius: 30px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.hero-section .cta-button:hover {
+  background: #ff5252;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+}
+
+.hero-section .mainvisual {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin-top: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.features-section {
+  padding: 80px 20px;
+  background: #f8f9fa;
+}
+
+.features-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 50px;
+  color: #333;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.feature-item {
+  text-align: center;
+  padding: 30px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.feature-item:hover {
+  transform: translateY(-5px);
+}
+
+.feature-item h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.feature-item p {
+  color: #666;
+  line-height: 1.6;
+}
+
+.feature-item .feature-link {
+  display: inline-block;
+  margin-top: 15px;
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.feature-item .feature-link:hover {
+  text-decoration: underline;
+}
+
+.pricing-section {
+  padding: 80px 20px;
+  background: white;
+}
+
+.pricing-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 50px;
+  color: #333;
+}
+
+.pricing-grid {
+  display: grid;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+.pricing-grid-1 {
+  grid-template-columns: 300px;
+}
+
+.pricing-grid-2 {
+  grid-template-columns: repeat(2, 300px);
+}
+
+.pricing-grid-3 {
+  grid-template-columns: repeat(3, 300px);
+}
+
+.pricing-grid-4 {
+  grid-template-columns: repeat(4, 300px);
+}
+
+.pricing-plan {
+  background: #f8f9fa;
+  border-radius: 15px;
+  padding: 40px 30px;
+  text-align: center;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  position: relative;
+}
+
+.pricing-plan:hover {
+  transform: translateY(-5px);
+}
+
+.pricing-plan.featured {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  transform: scale(1.05);
+}
+
+.pricing-plan.featured:hover {
+  transform: scale(1.05) translateY(-5px);
+}
+
+.pricing-plan h3 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.pricing-plan.featured h3 {
+  color: white;
+}
+
+.pricing-plan .price {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.pricing-plan.featured .price {
+  color: white;
+}
+
+.pricing-plan .price span {
+  font-size: 1rem;
+  font-weight: normal;
+}
+
+.pricing-plan ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 30px;
+}
+
+.pricing-plan li {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  color: #666;
+}
+
+.pricing-plan.featured li {
+  color: rgba(255, 255, 255, 0.9);
+  border-bottom-color: rgba(255, 255, 255, 0.2);
+}
+
+.pricing-plan .cta-button {
+  display: inline-block;
+  padding: 15px 30px;
+  background: #ff6b6b;
+  color: white;
+  text-decoration: none;
+  border-radius: 30px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.pricing-plan .cta-button:hover {
+  background: #ff5252;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+}
+
+.contact-section {
+  padding: 80px 20px;
+  background: #f8f9fa;
+}
+
+.contact-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 50px;
+  color: #333;
+}
+
+.contact-content {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.contact-content p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  color: #666;
+  line-height: 1.6;
+}
+
+.contact-info {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.contact-item a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.contact-item a:hover {
+  text-decoration: underline;
+}
+
+.testimonial-section {
+  padding: 80px 20px;
+  background: white;
+}
+
+.testimonial-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 50px;
+  color: #333;
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.testimonial-item {
+  background: #f8f9fa;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.testimonial-item blockquote {
+  font-size: 1.1rem;
+  font-style: italic;
+  margin-bottom: 20px;
+  color: #666;
+  line-height: 1.6;
+}
+
+.testimonial-item .author {
+  font-weight: bold;
+  color: #333;
+}
+
+.about-section {
+  padding: 80px 20px;
+  background: #f8f9fa;
+}
+
+.about-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 50px;
+  color: #333;
+}
+
+.about-content {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.about-content p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  color: #666;
+  line-height: 1.6;
+}
+
+.gallery-section {
+  padding: 80px 20px;
+  background: white;
+}
+
+.gallery-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 50px;
+  color: #333;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.gallery-item:hover {
+  transform: scale(1.05);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.faq-section {
+  padding: 80px 20px;
+  background: #f8f9fa;
+}
+
+.faq-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 50px;
+  color: #333;
+}
+
+.faq-list {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  background: white;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.faq-question {
+  padding: 20px;
+  background: #f8f9fa;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  border: none;
+  width: 100%;
+  text-align: left;
+  font-size: 1.1rem;
+}
+
+.faq-answer {
+  padding: 20px;
+  color: #666;
+  line-height: 1.6;
+  display: none;
+}
+
+.faq-answer.show {
+  display: block;
+}
+
+.footer-section {
+  background: #333;
+  color: white;
+  text-align: center;
+  padding: 40px 20px;
+  margin-top: 40px;
+}
+
+.footer-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.footer-content p {
+  margin: 0;
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+  .hero-section h1 {
+    font-size: 2rem;
+  }
+  
+  .hero-section h2 {
+    font-size: 1.2rem;
+  }
+  
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .pricing-grid-2,
+  .pricing-grid-3,
+  .pricing-grid-4 {
+    grid-template-columns: 1fr;
+  }
+  
+  .contact-info {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
