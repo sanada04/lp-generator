@@ -562,11 +562,11 @@ body, html {
   <p><%= part.description %></p>
   <div class="contact-info">
     <div class="contact-item">
-      <span>📧</span>
+      <span class="contact-icon">Email:</span>
       <a href="<%= part.emailLink || 'mailto:' + part.email %>"><%= part.email %></a>
     </div>
     <div class="contact-item">
-      <span>📞</span>
+      <span class="contact-icon">Tel:</span>
       <a href="<%= part.phoneLink || 'tel:' + part.phone %>"><%= part.phone %></a>
     </div>
   </div>

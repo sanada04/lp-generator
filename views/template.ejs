@@ -861,11 +861,11 @@ body, html {
   <p><%= part.description %></p>
   <div class="contact-info">
     <div class="contact-item">
-      <span>📧</span>
+      <span class="contact-icon">Email:</span>
       <a href="<%= part.emailLink || 'mailto:' + part.email %>"><%= part.email %></a>
     </div>
     <div class="contact-item">
-      <span>📞</span>
+      <span class="contact-icon">Tel:</span>
       <a href="<%= part.phoneLink || 'tel:' + part.phone %>"><%= part.phone %></a>
     </div>
   </div>
@@ -998,7 +998,7 @@ body, html {
 <% } else { %>
 <div class="footer-hidden-indicator">
   <div class="footer-hidden-content">
-    <div class="footer-hidden-icon">👁️‍🗨️</div>
+    <div class="footer-hidden-icon">●</div>
     <p>フッターは非表示になっています</p>
     <button class="show-footer-btn" data-part-id="<%= footerPart.id || 'default-footer' %>">表示する</button>
   </div>
