@@ -15,8 +15,9 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-// Multer 設定（複数ファイル: ロゴ & メインビジュアル）
-const upload = multer({ dest: "uploads/" });
+// Multer 設定（メモリストレージを使用）
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 // 編集画面
 app.get("/", (req, res) => {
